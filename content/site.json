@@ -1,0 +1,84 @@
+{
+  "brand": {
+    "name": "WellVoy",
+    "tagline": "Know your body. Then restore it."
+  },
+  "currencies": {
+    "USD": {
+      "symbol": "$",
+      "rateFromUSD": 1,
+      "roundTo": 10
+    },
+    "EUR": {
+      "symbol": "€",
+      "rateFromUSD": 0.92,
+      "roundTo": 10
+    },
+    "GBP": {
+      "symbol": "£",
+      "rateFromUSD": 0.79,
+      "roundTo": 10
+    }
+  },
+  "defaultCurrency": "USD",
+  "contact": {
+    "email": "care@wellvoy.com",
+    "whatsapp": "+910000000000",
+    "whatsappHours": "08:00–22:00 IST",
+    "replySLA": "within four working hours",
+    "offices": [
+      "Bengaluru",
+      "Calicut",
+      "London"
+    ]
+  },
+  "promise": [
+    {
+      "title": "Visa assistance",
+      "body": "Medical e-visa guidance and invitation letters."
+    },
+    {
+      "title": "Airport transfers",
+      "body": "Met on arrival, private car on departure."
+    },
+    {
+      "title": "Transfers between legs",
+      "body": "Domestic flights, ferries and cars, booked and escorted."
+    },
+    {
+      "title": "A dedicated coordinator",
+      "body": "One person, from first call to flight home."
+    },
+    {
+      "title": "Records, shared securely",
+      "body": "Reports sent to your doctor at home, if you wish."
+    },
+    {
+      "title": "24/7 on the ground",
+      "body": "A direct line, day and night, throughout."
+    }
+  ],
+  "promiseStrip": [
+    "No planning fees",
+    "Fixed, no-obligation quote",
+    "One coordinator, door to door",
+    "24/7 on the ground"
+  ],
+  "accreditations": [
+    "JCI",
+    "NABH",
+    "Ministry of AYUSH",
+    "Yoga Alliance RYT-500"
+  ],
+  "callback": {
+    "daysAhead": 7,
+    "slots": [
+      "09:00",
+      "11:30",
+      "14:00",
+      "17:30",
+      "19:00"
+    ]
+  },
+  "pricingNote": "Excludes international flights. Fixed quote confirmed after medical intake."
+}

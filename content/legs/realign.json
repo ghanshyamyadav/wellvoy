@@ -1,0 +1,121 @@
+{
+  "id": "realign",
+  "order": 3,
+  "label": "Realign",
+  "color": "#A6864A",
+  "optional": true,
+  "chapter": {
+    "number": "03",
+    "title": "Return to yourself, by the sea.",
+    "where": "Ashwem, North Goa or Havelock, Andaman",
+    "duration": "5, 7 or 10 nights",
+    "media": "larisa-film"
+  },
+  "destinations": [
+    {
+      "id": "goa",
+      "name": "Goa",
+      "place": "Ashwem, North Goa",
+      "rateUSD": 390,
+      "note": "LaRiSa Resort & Spa · Nov–Apr",
+      "stay": "LaRiSa cottage suite, full board",
+      "airport": "Goa (GOX)",
+      "arriveFromRestoreHub": "Calicut → Goa by air, private car to LaRiSa, Ashwem",
+      "media": "larisa-gallery-1-1",
+      "default": false
+    },
+    {
+      "id": "andaman",
+      "name": "Andaman Islands",
+      "place": "Havelock Island",
+      "rateUSD": 520,
+      "note": "Beach villa · Oct–May",
+      "stay": "Beach villa, full board",
+      "airport": "Port Blair (IXZ)",
+      "arriveFromRestoreHub": "Calicut → Port Blair via Chennai, private ferry to Havelock",
+      "media": null,
+      "default": true
+    }
+  ],
+  "durations": [
+    {
+      "nights": 5,
+      "default": false
+    },
+    {
+      "nights": 7,
+      "default": true
+    },
+    {
+      "nights": 10,
+      "default": false
+    }
+  ],
+  "practices": [
+    {
+      "id": "hatha",
+      "name": "Hatha & Yoga Nidra",
+      "note": "Slow, restorative",
+      "default": false
+    },
+    {
+      "id": "vinyasa",
+      "name": "Vinyasa flow",
+      "note": "Breath-led, moderate",
+      "default": true
+    },
+    {
+      "id": "ashtanga",
+      "name": "Ashtanga, Mysore style",
+      "note": "Disciplined, strong",
+      "default": false
+    }
+  ],
+  "practiceGrid": [
+    {
+      "name": "Hatha",
+      "body": "Held postures, alignment, steadiness"
+    },
+    {
+      "name": "Vinyasa",
+      "body": "Breath-led, flowing sequences"
+    },
+    {
+      "name": "Ashtanga",
+      "body": "Traditional Mysore-style practice"
+    },
+    {
+      "name": "Pranayama",
+      "body": "Breathwork for the nervous system"
+    },
+    {
+      "name": "Meditation",
+      "body": "Guided at dawn, silent at dusk"
+    },
+    {
+      "name": "Yoga Nidra",
+      "body": "Yogic sleep for deep recovery"
+    }
+  ],
+  "inclusions": [
+    "Twice-daily {practice.name}",
+    "Pranayama & meditation",
+    "Yoga Nidra",
+    "Two private sessions",
+    "{destination.stay}"
+  ],
+  "itinerary": [
+    {
+      "day": "start",
+      "title": "Transfer to {destination.name}",
+      "titleIfFirst": "Arrive in {destination.name}",
+      "detail": "{destination.arriveFromRestoreHub}",
+      "detailIfFirst": "Met on arrival, private transfer to the villa"
+    },
+    {
+      "day": "stay",
+      "title": "Realign · {nights} nights",
+      "detail": "{destination.place} · {practice.name} · pranayama · meditation"
+    }
+  ]
+}

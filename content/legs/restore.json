@@ -1,0 +1,103 @@
+{
+  "id": "restore",
+  "order": 2,
+  "label": "Restore",
+  "color": "#1E3A2E",
+  "optional": true,
+  "chapter": {
+    "number": "02",
+    "title": "Then, let the body rest.",
+    "where": "tulåh, near Calicut, northern Kerala",
+    "duration": "7, 14 or 21 nights",
+    "media": "tulah-film"
+  },
+  "venue": {
+    "id": "tulah",
+    "name": "tulåh",
+    "place": "Calicut, Kerala",
+    "airport": "Calicut (CCJ)",
+    "hub": "Calicut",
+    "transferFromAirport": "25-minute drive to tulåh"
+  },
+  "durations": [
+    {
+      "nights": 7,
+      "programme": "Introductory Panchakarma",
+      "default": false
+    },
+    {
+      "nights": 14,
+      "programme": "Classical Panchakarma",
+      "default": true
+    },
+    {
+      "nights": 21,
+      "programme": "Full Panchakarma & Rasayana",
+      "default": false
+    }
+  ],
+  "rooms": [
+    {
+      "id": "garden",
+      "name": "Garden Suite",
+      "note": "Private garden, soft natural light",
+      "rateUSD": 460,
+      "default": true
+    },
+    {
+      "id": "pavilion",
+      "name": "Sanctuary Suite",
+      "note": "Larger suite, open views of the landscape",
+      "rateUSD": 640,
+      "default": false
+    }
+  ],
+  "treatments": [
+    {
+      "name": "Vaidya consultation",
+      "body": "A senior Ayurvedic physician pairs your clinical results with Nadi Pariksha, the traditional pulse reading."
+    },
+    {
+      "name": "Prakriti assessment",
+      "body": "Your constitution (Vata, Pitta, Kapha) is mapped to shape your diet, treatments and daily rhythm."
+    },
+    {
+      "name": "Panchakarma",
+      "body": "The classical five-fold detoxification, prescribed for you and supervised daily. Never a generic programme."
+    },
+    {
+      "name": "Abhyanga",
+      "body": "Daily warm-oil massage performed by two therapists in synchrony."
+    },
+    {
+      "name": "Shirodhara",
+      "body": "A steady stream of warm medicated oil across the forehead, deeply calming to the nervous system."
+    },
+    {
+      "name": "Sattvic cuisine",
+      "body": "Fresh, seasonal meals matched to your dosha, from the sanctuary's own kitchen gardens."
+    }
+  ],
+  "inclusions": [
+    "Vaidya consultation & Nadi Pariksha",
+    "Prakriti (dosha) assessment",
+    "{duration.programme}",
+    "Daily Abhyanga",
+    "Shirodhara",
+    "Sattvic full board · {room.name}"
+  ],
+  "itinerary": [
+    {
+      "day": "start",
+      "title": "Transfer to Kerala",
+      "titleIfFirst": "Arrive in Calicut",
+      "detail": "{prev} → Calicut by air, {venue.transferFromAirport}",
+      "detailIfFirst": "Met at Calicut airport, {venue.transferFromAirport}"
+    },
+    {
+      "day": "stay",
+      "title": "Restore · {nights} nights",
+      "detail": "{room.name} · {duration.programme} · Shirodhara · sattvic board"
+    }
+  ]
+}

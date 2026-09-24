@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F5F1EA;color:#1D211E;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:#1E3A2E;text-decoration:none}
+a:hover{color:#8A6D36}
+button{font:inherit;cursor:pointer}
+input,textarea,select{font:inherit}
+::selection{background:#E7DDCC}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F5F1EA">
+
+<!-- NAV -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:{{ nav.bg }};border-bottom:1px solid {{ nav.border }};transition:background-color .3s ease,border-color .3s ease">
+  <div style="max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px);height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <button onClick="{{ goHome }}" style="background:none;border:none;padding:0;display:flex;align-items:baseline;gap:10px;color:{{ nav.fg }}">
+      <span style="font-family:'Newsreader',Georgia,serif;font-size:26px;font-weight:400;letter-spacing:-.01em">WellVoy</span>
+      <span style="display:{{ nav.tagDisplay }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.75">India</span>
+    </button>
+    <nav style="display:{{ nav.linksDisplay }};align-items:center;gap:32px">
+      <sc-for list="{{ navLinks }}" as="l" hint-placeholder-count="4">
+        <button onClick="{{ l.onClick }}" style="background:none;border:none;padding:6px 0;font-size:14px;color:{{ nav.fg }};border-bottom:1px solid {{ l.underline }};transition:border-color .2s ease">{{ l.label }}</button>
+      </sc-for>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onClick="{{ openAdvisor }}" style="display:{{ nav.linksDisplay }};background:none;border:1px solid {{ nav.btnBorder }};color:{{ nav.fg }};border-radius:999px;padding:10px 18px;font-size:13px;transition:background-color .2s ease" style-hover="background:rgba(166,134,74,.14)">Speak to an advisor</button>
+      <button onClick="{{ goBuild }}" style="background:{{ nav.ctaBg }};color:{{ nav.ctaFg }};border:none;border-radius:999px;padding:11px 20px;font-size:13px;font-weight:500;transition:opacity .2s ease" style-hover="opacity:.88">{{ nav.ctaLabel }}</button>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="display:{{ nav.menuDisplay }};background:none;border:none;padding:10px;width:44px;height:44px;flex-direction:column;justify-content:center;gap:6px;color:{{ nav.fg }}">
+        <span style="display:block;height:1px;width:22px;background:currentColor"></span>
+        <span style="display:block;height:1px;width:22px;background:currentColor"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:60;background:#152A21;color:#F5F1EA;padding:24px clamp(20px,5vw,48px);display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;height:48px">
+      <span style="font-family:'Newsreader',Georgia,serif;font-size:26px">WellVoy</span>
+      <button onClick="{{ toggleMenu }}" style="background:none;border:1px solid rgba(245,241,234,.3);color:#F5F1EA;border-radius:999px;padding:10px 18px;font-size:13px">Close</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:48px">
+      <sc-for list="{{ navLinks }}" as="l" hint-placeholder-count="4">
+        <button onClick="{{ l.onClick }}" style="background:none;border:none;border-bottom:1px solid rgba(245,241,234,.12);color:#F5F1EA;text-align:left;padding:18px 0;font-family:'Newsreader',Georgia,serif;font-size:36px;font-weight:300">{{ l.label }}</button>
+      </sc-for>
+    </div>
+    <button onClick="{{ openAdvisor }}" style="margin-top:auto;background:#F5F1EA;color:#152A21;border:none;border-radius:999px;padding:16px;font-size:15px;font-weight:500">Speak to a Care Advisor</button>
+  </div>
+</sc-if>
+
+<!-- ============ HOME ============ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main>
+  <section style="position:relative;min-height:max(100svh,640px);overflow:hidden;background:#152A21;color:#F5F1EA;display:flex;flex-direction:column">
+    <div ref="{{ heroImg }}" style="position:absolute;inset:-6% 0 -6% 0;background:repeating-linear-gradient(135deg,#1B3529 0 16px,#1F3B2E 16px 32px);will-change:transform;display:flex;align-items:flex-start;justify-content:flex-end;padding:110px clamp(20px,4vw,48px)">
+      <video data-bg="1" data-hero="1" src="../media/video/tulah-film.mp4" poster="../media/image/larisa-gallery-1-1.avif" muted="{{ true }}" loop="{{ true }}" autoPlay="{{ true }}" playsInline="{{ true }}" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,0) 35%,rgba(21,42,33,.72) 100%)"></div>
+    <div style="position:relative;flex:1;width:100%;max-width:1320px;margin:0 auto;padding:104px clamp(20px,4vw,48px) clamp(32px,6vh,80px);display:flex;flex-direction:column;justify-content:flex-end">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#E7DDCC;margin-bottom:24px">Preventive health · Fully managed · India</div>
+      <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(44px,min(8.4vw,13vh),120px);line-height:.98;letter-spacing:-.02em;margin:0;max-width:11ch;text-wrap:balance">Know your body. Then restore it.</h1>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:36px">
+        <p style="max-width:520px;margin:0;font-size:clamp(16px,1.4vw,18px);line-height:1.6;color:#EDE6DA;text-wrap:pretty">One continuous journey: a clinical health assessment at accredited hospitals, an Ayurveda retreat in Kerala, and yoga by the sea in Goa or the Andaman Islands. Every transfer handled.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button onClick="{{ goBuild }}" style="background:#F5F1EA;color:#152A21;border:none;border-radius:999px;padding:16px 26px;font-size:14px;font-weight:500;transition:transform .2s ease" style-hover="transform:translateY(-1px)">Build your journey</button>
+          <button onClick="{{ openConcierge }}" style="background:transparent;color:#F5F1EA;border:1px solid rgba(245,241,234,.45);border-radius:999px;padding:16px 26px;font-size:14px;transition:background-color .2s ease" style-hover="background:rgba(245,241,234,.1)">Ask the concierge</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:clamp(36px,6vh,64px);border-top:1px solid rgba(245,241,234,.25)">
+        <div style="padding-top:16px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">01</div><div style="font-family:'Newsreader',Georgia,serif;font-size:clamp(18px,2vw,24px);margin-top:4px">Diagnose</div></div>
+        <div style="padding-top:16px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">02</div><div style="font-family:'Newsreader',Georgia,serif;font-size:clamp(18px,2vw,24px);margin-top:4px">Restore</div></div>
+        <div style="padding-top:16px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">03</div><div style="font-family:'Newsreader',Georgia,serif;font-size:clamp(18px,2vw,24px);margin-top:4px">Realign</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div style="background:#EDE6DA;border-bottom:1px solid rgba(29,33,30,.08)">
+    <div style="max-width:1320px;margin:0 auto;padding:18px clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;font-size:13px;color:#3F433E">
+      <span style="display:flex;gap:10px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#A6864A"></span>No planning fees</span>
+      <span style="display:flex;gap:10px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#A6864A"></span>Fixed, no-obligation quote</span>
+      <span style="display:flex;gap:10px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#A6864A"></span>One coordinator, door to door</span>
+      <span style="display:flex;gap:10px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#A6864A"></span>24/7 on the ground</span>
+    </div>
+  </div>
+
+  <!-- chapter indicator -->
+  <div style="position:fixed;top:84px;left:50%;transform:translateX(-50%);z-index:40;opacity:{{ rail.opacity }};pointer-events:{{ rail.pe }};transition:opacity .3s ease">
+    <div style="background:rgba(251,249,245,.96);border:1px solid rgba(29,33,30,.1);border-radius:999px;padding:6px;display:flex;gap:2px;position:relative;overflow:hidden">
+      <sc-for list="{{ rail.items }}" as="r" hint-placeholder-count="3">
+        <button onClick="{{ r.onClick }}" style="background:{{ r.bg }};color:{{ r.fg }};border:none;border-radius:999px;padding:8px 14px;font-size:12px;display:flex;gap:8px;align-items:center;transition:background-color .25s ease,color .25s ease"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.7">{{ r.num }}</span>{{ r.label }}</button>
+      </sc-for>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(29,33,30,.06)"><div ref="{{ progRef }}" style="height:100%;background:#A6864A;transform-origin:left;transform:scaleX(0)"></div></div>
+    </div>
+  </div>
+
+  <section style="max-width:1320px;margin:0 auto;padding:clamp(96px,14vw,180px) clamp(20px,4vw,48px)">
+    <p data-reveal="1" style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(28px,3.8vw,52px);line-height:1.18;letter-spacing:-.01em;margin:0;max-width:22ch;text-wrap:pretty">Most wellness begins with how you feel. Ours begins with what can be measured, then gives your body the time and stillness to act on it.</p>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:32px;margin-top:72px;border-top:1px solid rgba(29,33,30,.12);padding-top:32px">
+      <div><div style="font-family:'Newsreader',Georgia,serif;font-size:44px;font-weight:300">16–36</div><div style="font-size:14px;color:#5F625C;margin-top:4px">days, door to door</div></div>
+      <div><div style="font-family:'Newsreader',Georgia,serif;font-size:44px;font-weight:300">3</div><div style="font-size:14px;color:#5F625C;margin-top:4px">places, one itinerary</div></div>
+      <div><div style="font-family:'Newsreader',Georgia,serif;font-size:44px;font-weight:300">1</div><div style="font-size:14px;color:#5F625C;margin-top:4px">coordinator, start to finish</div></div>
+    </div>
+  </section>
+
+  <section style="max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) clamp(96px,12vw,160px)">
+    <div data-reveal="1" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px">
+      <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(34px,4.4vw,58px);line-height:1.04;margin:0;max-width:16ch">How would you like to feel when you fly home?</h2>
+      <p style="margin:0;font-size:15px;color:#5F625C;max-width:36ch;line-height:1.6">Begin with a feeling. We'll suggest the journey that gets you there.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
+        <button data-reveal="1" onClick="{{ feel.clear }}" style="position:relative;aspect-ratio:4/5;border:none;padding:0;border-radius:6px;overflow:hidden;background:#1E3A2E;color:#F5F1EA;text-align:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)" style-hover="transform:translateY(-4px)">
+          <video data-frame="1" src="../media/video/taj-brand-film.mp4#t=18" muted="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,0) 35%,rgba(21,42,33,.82) 100%)"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#E7DDCC">Executive Renewal · Bengaluru</span>
+            <span style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,4vw,52px);line-height:1">Certain.</span>
+            <span style="font-size:14px;line-height:1.5;color:#EDE6DA;max-width:30ch">Every question about your health answered, with a plan you trust.</span>
+          </div>
+        </button>
+        <button data-reveal="1" onClick="{{ feel.rested }}" style="position:relative;aspect-ratio:4/5;border:none;padding:0;border-radius:6px;overflow:hidden;background:#1E3A2E;color:#F5F1EA;text-align:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)" style-hover="transform:translateY(-4px)">
+          <video data-frame="1" src="../media/video/tulah-film.mp4#t=55" muted="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,0) 35%,rgba(21,42,33,.82) 100%)"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#E7DDCC">The Full Voyage · Kerala</span>
+            <span style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,4vw,52px);line-height:1">Rested.</span>
+            <span style="font-size:14px;line-height:1.5;color:#EDE6DA;max-width:30ch">Two weeks of Panchakarma, then stillness by the sea.</span>
+          </div>
+        </button>
+        <button data-reveal="1" onClick="{{ feel.renewed }}" style="position:relative;aspect-ratio:4/5;border:none;padding:0;border-radius:6px;overflow:hidden;background:#1E3A2E;color:#F5F1EA;text-align:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)" style-hover="transform:translateY(-4px)">
+          <img src="../media/image/larisa-gallery-5.avif" alt="LaRiSa, Ashwem" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,0) 35%,rgba(21,42,33,.82) 100%)"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#E7DDCC">The Reset · Goa</span>
+            <span style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,4vw,52px);line-height:1">Renewed.</span>
+            <span style="font-size:14px;line-height:1.5;color:#EDE6DA;max-width:30ch">A clear baseline and a gentle reset, in just over two weeks.</span>
+          </div>
+        </button>
+    </div>
+  </section>
+
+  <!-- CHAPTER 01 DIAGNOSE -->
+  <section data-leg="0">
+    <div style="position:relative;height:clamp(420px,78vh,760px);background:repeating-linear-gradient(135deg,#DCD3C4 0 16px,#E2DACC 16px 32px);overflow:hidden">
+      <video data-bg="1" src="../media/video/taj-brand-film.mp4" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,.2),rgba(21,42,33,0) 40%)"></div><span style="position:absolute;top:92px;right:clamp(20px,4vw,48px);background:rgba(21,42,33,.6);color:#F5F1EA;border-radius:999px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">Your city base · Taj MG Road, Bengaluru</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 40px">
+        <div data-reveal="1" style="background:#FBF9F5;display:inline-flex;flex-direction:column;gap:10px;padding:28px 32px;border-radius:4px;max-width:560px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Chapter 01 · Diagnose</div>
+          <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,5vw,64px);line-height:1;letter-spacing:-.01em;margin:0">Begin with evidence.</h2>
+          <div style="font-size:14px;color:#5F625C">Bengaluru, Mumbai or New Delhi  —  3 to 4 days</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px);align-items:start">
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:20px">
+        <p style="font-size:18px;line-height:1.65;color:#3F433E;margin:0;text-wrap:pretty">A preventive assessment at JCI and NABH-accredited partner hospitals. Imaging, blood work and fitness testing are completed in a single, unhurried programme, then a senior physician walks you through every finding in person.</p>
+        <p style="font-size:16px;line-height:1.65;color:#5F625C;margin:0;text-wrap:pretty">Optional dental and aesthetic treatment is available through the same accredited network, scheduled around your screening.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+          <span style="border:1px solid rgba(29,33,30,.18);border-radius:999px;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">JCI accredited</span>
+          <span style="border:1px solid rgba(29,33,30,.18);border-radius:999px;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">NABH accredited</span>
+          <span style="border:1px solid rgba(29,33,30,.18);border-radius:999px;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em">Report in English</span>
+        </div>
+      </div>
+      <div data-reveal="1" style="background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;overflow-x:auto;-webkit-overflow-scrolling:touch"><div style="min-width:440px">
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.1)">
+          <div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Screening</div>
+          <div style="padding:16px 8px;font-weight:500">Essential</div>
+          <div style="padding:16px 8px;font-weight:500">Advanced</div>
+          <div style="padding:16px 8px;font-weight:500">Executive</div>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">Biomarker panel</div><div style="padding:14px 8px;color:#3F433E">90</div><div style="padding:14px 8px;color:#3F433E">120</div><div style="padding:14px 8px;color:#3F433E">140+</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">DEXA scan</div><div style="padding:14px 8px;color:#1E3A2E">●</div><div style="padding:14px 8px;color:#1E3A2E">●</div><div style="padding:14px 8px;color:#1E3A2E">●</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">Cancer markers</div><div style="padding:14px 8px;color:#3F433E">Core</div><div style="padding:14px 8px;color:#3F433E">Core</div><div style="padding:14px 8px;color:#3F433E">Extended</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">Cardiac CT · calcium score</div><div style="padding:14px 8px;color:#B5B1A8">—</div><div style="padding:14px 8px;color:#1E3A2E">●</div><div style="padding:14px 8px;color:#1E3A2E">●</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">VO2 max</div><div style="padding:14px 8px;color:#B5B1A8">—</div><div style="padding:14px 8px;color:#1E3A2E">●</div><div style="padding:14px 8px;color:#1E3A2E">●</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.07)"><div style="padding:14px 16px">Full-body MRI</div><div style="padding:14px 8px;color:#B5B1A8">—</div><div style="padding:14px 8px;color:#B5B1A8">—</div><div style="padding:14px 8px;color:#1E3A2E">●</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;border-bottom:1px solid rgba(29,33,30,.1)"><div style="padding:14px 16px">Physician debrief</div><div style="padding:14px 8px;color:#3F433E">45 min</div><div style="padding:14px 8px;color:#3F433E">60 min</div><div style="padding:14px 8px;color:#3F433E">90 min</div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.7fr) repeat(3,minmax(0,1fr));font-size:13px;background:#F5F1EA"><div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">From</div><div style="padding:16px 8px;font-weight:500">{{ tierPrices.essential }}</div><div style="padding:16px 8px;font-weight:500">{{ tierPrices.advanced }}</div><div style="padding:16px 8px;font-weight:500">{{ tierPrices.executive }}</div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 20px 72px;text-align:center">
+    <div style="width:1px;height:56px;background:rgba(29,33,30,.2)"></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Transfer · Bengaluru → Calicut · 1h flight · arranged by your coordinator</div>
+  </div>
+
+  <!-- CHAPTER 02 RESTORE -->
+  <section data-leg="1" style="background:#1E3A2E;color:#F5F1EA">
+    <div style="position:relative;height:clamp(460px,90vh,860px);background:repeating-linear-gradient(135deg,#1B3529 0 16px,#20402F 16px 32px);overflow:hidden">
+      <video data-bg="1" src="../media/video/tulah-film.mp4#t=24" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,.25) 0%,rgba(21,42,33,0) 30%,rgba(21,42,33,.72) 100%)"></div><span style="position:absolute;top:92px;right:clamp(20px,4vw,48px);background:rgba(21,42,33,.6);color:#F5F1EA;border-radius:999px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">tulåh · Calicut, Kerala</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 56px">
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:14px;max-width:760px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9B68E">Chapter 02 · Restore</div>
+          <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(40px,6.4vw,92px);line-height:1;letter-spacing:-.02em;margin:0">Then, let the body rest.</h2>
+          <div style="font-size:15px;color:#E7DDCC">tulåh, near Calicut, northern Kerala  —  7, 14 or 21 nights</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px)">
+      <p data-reveal="1" style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(24px,2.8vw,36px);line-height:1.3;margin:0 0 64px;max-width:28ch;color:#F5F1EA;text-wrap:pretty">Your Vaidya reads your screening report before you arrive. Ayurveda begins where the data leaves off.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));border-top:1px solid rgba(245,241,234,.18)">
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">i</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Vaidya consultation</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">A senior Ayurvedic physician pairs your clinical results with Nadi Pariksha, the traditional pulse reading.</p></div>
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">ii</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Prakriti assessment</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">Your constitution (Vata, Pitta, Kapha) is mapped to shape your diet, treatments and daily rhythm.</p></div>
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">iii</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Panchakarma</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">The classical five-fold detoxification, prescribed for you and supervised daily. Never a generic programme.</p></div>
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">iv</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Abhyanga</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">Daily warm-oil massage performed by two therapists in synchrony.</p></div>
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">v</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Shirodhara</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">A steady stream of warm medicated oil across the forehead, deeply calming to the nervous system.</p></div>
+        <div data-reveal="1" style="padding:28px 28px 36px 0;border-bottom:1px solid rgba(245,241,234,.18)"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#C9B68E">vi</div><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;margin:12px 0 10px">Sattvic cuisine</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#DCD3C4">Fresh, seasonal meals matched to your dosha, from the resort's own kitchen gardens.</p></div>
+      </div>
+    </div>
+    <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px 88px;text-align:center">
+      <div style="width:1px;height:56px;background:rgba(245,241,234,.25)"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#DCD3C4">Transfer · Calicut → Goa or Port Blair · flights &amp; ferry arranged</div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 03 REALIGN -->
+  <section data-leg="2">
+    <div style="position:relative;height:clamp(460px,90vh,860px);background:repeating-linear-gradient(135deg,#D9CCB3 0 16px,#DFD3BC 16px 32px);overflow:hidden">
+      <video data-bg="1" src="../media/video/larisa-film.webm" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,.25) 0%,rgba(21,42,33,0) 30%,rgba(21,42,33,.72) 100%)"></div><span style="position:absolute;top:92px;right:clamp(20px,4vw,48px);background:rgba(21,42,33,.6);color:#F5F1EA;border-radius:999px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">LaRiSa Resort &amp; Spa · Ashwem, Goa</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 56px">
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:14px;max-width:760px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E7DDCC">Chapter 03 · Realign</div>
+          <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(40px,6.4vw,92px);line-height:1;letter-spacing:-.02em;margin:0;color:#F5F1EA">Return to yourself, by the sea.</h2>
+          <div style="font-size:15px;color:#EDE6DA">Ashwem, North Goa or Havelock, Andaman  —  5, 7 or 10 nights</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(64px,9vw,120px) clamp(20px,4vw,48px)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px">
+        <button data-reveal="1" onClick="{{ pickGoa }}" style="text-align:left;background:none;border:none;padding:0;color:inherit;display:flex;flex-direction:column;gap:18px">
+          <div style="aspect-ratio:4/3;width:100%;position:relative;background:#DCD3C4;border-radius:4px;overflow:hidden"><img src="../media/image/larisa-gallery-1-1.avif" alt="LaRiSa Resort &amp; Spa, Ashwem, Goa" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.03)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:32px;margin:0">Goa</h3><span style="font-size:14px;color:#5F625C">LaRiSa, Ashwem · from {{ destRates.goa }} / night</span></div>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E;max-width:52ch">Garden cottages at LaRiSa Resort &amp; Spa, a short walk from a quiet North Goa beach, with sunrise practice by the Arabian Sea. Best November to April.</p>
+        </button>
+        <button data-reveal="1" onClick="{{ pickAndaman }}" style="text-align:left;background:none;border:none;padding:0;color:inherit;display:flex;flex-direction:column;gap:18px">
+          <div style="aspect-ratio:4/3;width:100%;background:repeating-linear-gradient(135deg,#E2D8C6 0 14px,#E8DFCF 14px 28px);border-radius:4px;display:flex;align-items:flex-end;padding:16px;overflow:hidden"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5F625C;text-transform:uppercase;letter-spacing:.08em">Photo · beach villa, Havelock Island</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:32px;margin:0">Andaman Islands</h3><span style="font-size:14px;color:#5F625C">Beach villa · from {{ destRates.andaman }} / night</span></div>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E;max-width:52ch">Rainforest meeting white sand on Havelock (Swaraj Dweep). Remote, still, and made for deep rest. Best October to May.</p>
+        </button>
+      </div>
+      <div data-reveal="1" style="margin-top:88px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:1px;background:rgba(29,33,30,.12);border:1px solid rgba(29,33,30,.12)">
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Hatha</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Held postures, alignment, steadiness</div></div>
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Vinyasa</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Breath-led, flowing sequences</div></div>
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Ashtanga</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Traditional Mysore-style practice</div></div>
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Pranayama</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Breathwork for the nervous system</div></div>
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Meditation</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Guided at dawn, silent at dusk</div></div>
+        <div style="background:#F5F1EA;padding:24px"><div style="font-family:'Newsreader',Georgia,serif;font-size:22px">Yoga Nidra</div><div style="font-size:13px;color:#5F625C;margin-top:6px;line-height:1.5">Yogic sleep for deep recovery</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGED -->
+  <section style="background:#152A21;color:#F5F1EA">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(80px,11vw,150px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+      <div data-reveal="1">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9B68E">The WellVoy promise</div>
+        <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(38px,5vw,64px);line-height:1.02;margin:18px 0 20px;letter-spacing:-.01em">All-inclusive. Fully managed.</h2>
+        <p style="font-size:17px;line-height:1.6;color:#DCD3C4;margin:0;max-width:44ch">You see what's included, where, how long and the price. Everything between is ours to handle.</p>
+      </div>
+      <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0 32px">
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">Visa assistance</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">Medical e-visa guidance and invitation letters.</div></div>
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">Airport transfers</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">Met on arrival, private car on departure.</div></div>
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">Transfers between legs</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">Domestic flights, ferries and cars, booked and escorted.</div></div>
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">A dedicated coordinator</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">One person, from first call to flight home.</div></div>
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">Records, shared securely</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">Reports sent to your doctor at home, if you wish.</div></div>
+        <div style="padding:20px 0;border-top:1px solid rgba(245,241,234,.18)"><div style="font-size:16px;font-weight:500">24/7 on the ground</div><div style="font-size:14px;color:#C8C0B2;margin-top:6px;line-height:1.5">A direct line, day and night, throughout.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE JOURNEYS -->
+  <section style="max-width:1320px;margin:0 auto;padding:clamp(80px,11vw,150px) clamp(20px,4vw,48px)">
+    <div data-reveal="1" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Signature journeys</div><h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,4.6vw,60px);line-height:1.04;margin:14px 0 0">Begin from a proven shape.</h2></div>
+      <button onClick="{{ goBuild }}" style="background:none;border:1px solid rgba(29,33,30,.25);border-radius:999px;padding:12px 20px;font-size:14px;color:#1D211E" style-hover="background:#EDE6DA">Or build from scratch</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px">
+      <sc-for list="{{ pkgCards }}" as="p" hint-placeholder-count="3">
+        <button data-reveal="1" onClick="{{ p.onClick }}" style="text-align:left;background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;padding:0;overflow:hidden;color:inherit;display:flex;flex-direction:column;transition:transform .25s ease,border-color .25s ease" style-hover="transform:translateY(-3px);border-color:rgba(29,33,30,.28)">
+          <div style="aspect-ratio:5/3;width:100%;position:relative;overflow:hidden;background:#DCD3C4"><sc-if value="{{ p.isImg }}" hint-placeholder-val="{{ true }}"><img src="{{ p.src }}" alt="{{ p.name }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if><sc-if value="{{ p.isVid }}" hint-placeholder-val="{{ false }}"><video data-frame="1" src="{{ p.src }}" muted="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video></sc-if></div>
+          <div style="padding:24px;display:flex;flex-direction:column;gap:12px;flex:1">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5F625C">{{ p.days }} days · {{ p.route }}</div>
+            <h3 style="font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:30px;margin:0">{{ p.name }}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.55;color:#3F433E">{{ p.line }}</p>
+            <div style="display:flex;height:4px;gap:2px;margin-top:8px"><sc-for list="{{ p.segs }}" as="s" hint-placeholder-count="3"><div style="flex:{{ s.n }};background:{{ s.color }};border-radius:2px"></div></sc-for></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:16px;border-top:1px solid rgba(29,33,30,.1)"><span style="font-size:13px;color:#5F625C">From, per person</span><span style="font-family:'Newsreader',Georgia,serif;font-size:26px">{{ p.price }}</span></div>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CARE TEAM -->
+  <section style="background:#EDE6DA">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(80px,11vw,150px) clamp(20px,4vw,48px)">
+      <div data-reveal="1" style="max-width:640px;margin-bottom:48px"><div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Your care team</div><h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(36px,4.6vw,60px);line-height:1.04;margin:14px 0 16px">Physicians first. Hosts second.</h2><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">Every journey is overseen by a named clinical lead who reviews your results with the Vaidya and your yoga teacher.</p></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px">
+        <div data-reveal="1"><div style="aspect-ratio:4/5;background:repeating-linear-gradient(135deg,#DCD3C4 0 14px,#E2DACC 14px 28px);border-radius:4px;display:flex;align-items:flex-end;padding:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F625C;text-transform:uppercase">Portrait</span></div><div style="font-family:'Newsreader',Georgia,serif;font-size:22px;margin-top:16px">Dr. Ananya Rao</div><div style="font-size:14px;color:#3F433E;margin-top:4px">Preventive Cardiology · MD, DM</div><div style="font-size:13px;color:#5F625C;margin-top:4px">Clinical lead, Mumbai</div></div>
+        <div data-reveal="1"><div style="aspect-ratio:4/5;background:repeating-linear-gradient(135deg,#DCD3C4 0 14px,#E2DACC 14px 28px);border-radius:4px;display:flex;align-items:flex-end;padding:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F625C;text-transform:uppercase">Portrait</span></div><div style="font-family:'Newsreader',Georgia,serif;font-size:22px;margin-top:16px">Dr. Vikram Menon</div><div style="font-size:14px;color:#3F433E;margin-top:4px">Radiology · MD, FRCR</div><div style="font-size:13px;color:#5F625C;margin-top:4px">Imaging lead, Bengaluru</div></div>
+        <div data-reveal="1"><div style="aspect-ratio:4/5;background:repeating-linear-gradient(135deg,#DCD3C4 0 14px,#E2DACC 14px 28px);border-radius:4px;display:flex;align-items:flex-end;padding:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F625C;text-transform:uppercase">Portrait</span></div><div style="font-family:'Newsreader',Georgia,serif;font-size:22px;margin-top:16px">Dr. Lakshmi Nair</div><div style="font-size:14px;color:#3F433E;margin-top:4px">Chief Vaidya · BAMS, MD (Ayu)</div><div style="font-size:13px;color:#5F625C;margin-top:4px">Kerala</div></div>
+        <div data-reveal="1"><div style="aspect-ratio:4/5;background:repeating-linear-gradient(135deg,#DCD3C4 0 14px,#E2DACC 14px 28px);border-radius:4px;display:flex;align-items:flex-end;padding:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F625C;text-transform:uppercase">Portrait</span></div><div style="font-family:'Newsreader',Georgia,serif;font-size:22px;margin-top:16px">Meera Iyer</div><div style="font-size:14px;color:#3F433E;margin-top:4px">Lead teacher · E-RYT 500</div><div style="font-size:13px;color:#5F625C;margin-top:4px">Goa &amp; Andaman</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS + ACCREDITATION -->
+  <section style="max-width:1320px;margin:0 auto;padding:clamp(80px,11vw,150px) clamp(20px,4vw,48px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,4vw,64px)">
+      <figure data-reveal="1" style="margin:0;display:flex;flex-direction:column;gap:20px"><blockquote style="margin:0;font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:300;font-size:24px;line-height:1.35">“The calcium score gave me a number to act on. Three weeks later I flew home lighter, sleeping properly, with a plan my GP actually agreed with.”</blockquote><figcaption style="font-size:13px;color:#5F625C">James H., 52 · London · The Full Voyage</figcaption></figure>
+      <figure data-reveal="1" style="margin:0;display:flex;flex-direction:column;gap:20px"><blockquote style="margin:0;font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:300;font-size:24px;line-height:1.35">“I never once looked at a timetable. Someone was always waiting — at the hospital, at Kochi, at the ferry.”</blockquote><figcaption style="font-size:13px;color:#5F625C">Claudia M., 47 · Zürich · The Reset</figcaption></figure>
+      <figure data-reveal="1" style="margin:0;display:flex;flex-direction:column;gap:20px"><blockquote style="margin:0;font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:300;font-size:24px;line-height:1.35">“Clinical where it mattered, gentle everywhere else. The debrief was the most thorough hour I've spent with a doctor.”</blockquote><figcaption style="font-size:13px;color:#5F625C">Omar S., 58 · Dubai · Executive Renewal</figcaption></figure>
+    </div>
+    <div data-reveal="1" style="margin-top:96px;padding-top:32px;border-top:1px solid rgba(29,33,30,.12);display:flex;flex-wrap:wrap;gap:16px 48px;align-items:center;justify-content:space-between">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5F625C">Accredited partners</span>
+      <div style="display:flex;flex-wrap:wrap;gap:12px 40px;font-family:'Newsreader',Georgia,serif;font-size:20px;color:#3F433E"><span>JCI</span><span>NABH</span><span>Ministry of AYUSH</span><span>Yoga Alliance RYT-500</span></div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section style="max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) clamp(80px,10vw,140px)">
+    <div data-reveal="1" style="background:#1E3A2E;color:#F5F1EA;border-radius:6px;padding:clamp(40px,6vw,88px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px;align-items:end">
+      <h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(34px,4.4vw,58px);line-height:1.04;margin:0">Tell us a little. We'll shape the rest.</h2>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#DCD3C4">Our concierge asks five quiet questions and proposes a journey you can refine. Or speak with a care advisor directly.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button onClick="{{ openConcierge }}" style="background:#F5F1EA;color:#152A21;border:none;border-radius:999px;padding:15px 24px;font-size:14px;font-weight:500">Begin with the concierge</button>
+          <button onClick="{{ openAdvisor }}" style="background:none;color:#F5F1EA;border:1px solid rgba(245,241,234,.4);border-radius:999px;padding:15px 24px;font-size:14px" style-hover="background:rgba(245,241,234,.08)">Speak to an advisor</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<!-- ============ BUILD ============ -->
+<sc-if value="{{ isBuild }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1320px;margin:0 auto;padding:120px clamp(20px,4vw,48px) 120px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Build your journey</div><h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(40px,5.6vw,76px);line-height:1;margin:14px 0 0;letter-spacing:-.01em">Three legs, shaped to you.</h1></div>
+  </div>
+  <button onClick="{{ openConcierge }}" style="width:100%;text-align:left;background:#1E3A2E;color:#F5F1EA;border:none;border-radius:6px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;transition:background-color .2s ease" style-hover="background:#152A21">
+    <span style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Newsreader',Georgia,serif;font-size:22px">Not sure where to begin?</span><span style="font-size:14px;color:#DCD3C4">Our concierge will suggest a journey in about a minute.</span></span>
+    <span style="border:1px solid rgba(245,241,234,.4);border-radius:999px;padding:10px 18px;font-size:13px">Ask the concierge →</span>
+  </button>
+
+  <div style="display:grid;grid-template-columns:{{ layout.cols }};gap:clamp(24px,3vw,48px);align-items:start">
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <!-- STEP 1 -->
+      <div style="background:#FBF9F5;border:1px solid {{ s0.bd }};border-radius:6px;transition:border-color .25s ease">
+        <button onClick="{{ s0.onHead }}" style="width:100%;background:none;border:none;padding:22px 24px;display:flex;align-items:center;gap:18px;text-align:left;color:inherit;opacity:{{ s0.op }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36;letter-spacing:.1em">01</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Diagnose</span><span style="font-size:13px;color:#5F625C">{{ s0.summary }}</span></span>
+          <span style="font-size:13px;color:#5F625C">{{ s0.action }}</span>
+        </button>
+        <sc-if value="{{ s0.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:24px">
+            <button onClick="{{ tg.diag.onClick }}" style="align-self:flex-start;background:none;border:none;padding:0;display:flex;align-items:center;gap:12px;font-size:14px;color:#3F433E">
+              <span style="width:40px;height:24px;border-radius:999px;background:{{ tg.diag.bg }};position:relative;transition:background-color .2s ease"><span style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#FBF9F5;transform:translateX({{ tg.diag.x }});transition:transform .2s ease"></span></span>
+              Include a health assessment
+            </button>
+            <sc-if value="{{ cfg.diag }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:24px">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px">
+                  <sc-for list="{{ tierCards }}" as="t" hint-placeholder-count="3">
+                    <button onClick="{{ t.onClick }}" style="text-align:left;background:{{ t.bg }};border:1px solid {{ t.bd }};border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:8px;color:inherit;transition:border-color .2s ease,background-color .2s ease">
+                      <span style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:500;font-size:15px">{{ t.name }}</span><span style="width:14px;height:14px;border-radius:50%;border:1px solid #1E3A2E;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:{{ t.dot }}"></span></span></span>
+                      <span style="font-family:'Newsreader',Georgia,serif;font-size:26px">{{ t.price }}</span>
+                      <span style="font-size:13px;color:#5F625C;line-height:1.45">{{ t.blurb }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#5F625C;text-transform:uppercase">{{ t.meta }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+                <div style="background:#F5F1EA;border-radius:6px;padding:18px 20px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Included in {{ tierName }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:8px 24px">
+                    <sc-for list="{{ tierItems }}" as="it" hint-placeholder-count="5"><div style="display:flex;gap:10px;font-size:14px;line-height:1.45"><span style="color:#1E3A2E">●</span><span>{{ it }}</span></div></sc-for>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Partner hospital city</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ cityChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onClick }}" style="background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};border-radius:999px;padding:11px 18px;font-size:14px;transition:background-color .2s ease">{{ c.label }}</button></sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+            <button onClick="{{ s0.onNext }}" style="align-self:flex-start;background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:13px 22px;font-size:14px">Continue</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- STEP 2 -->
+      <div style="background:#FBF9F5;border:1px solid {{ s1.bd }};border-radius:6px;transition:border-color .25s ease">
+        <button onClick="{{ s1.onHead }}" style="width:100%;background:none;border:none;padding:22px 24px;display:flex;align-items:center;gap:18px;text-align:left;color:inherit;opacity:{{ s1.op }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36;letter-spacing:.1em">02</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Add-ons</span><span style="font-size:13px;color:#5F625C">{{ s1.summary }}</span></span>
+          <span style="font-size:13px;color:#5F625C">{{ s1.action }}</span>
+        </button>
+        <sc-if value="{{ s1.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:24px">
+            <sc-if value="{{ noDiag }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:14px;color:#5F625C">Dental and aesthetic treatments are scheduled alongside the Diagnose leg. Include a health assessment to add them.</p></sc-if>
+            <sc-if value="{{ cfg.diag }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:24px">
+                <sc-for list="{{ addonGroups }}" as="g" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:8px">{{ g.name }}</div>
+                    <div style="display:flex;flex-direction:column;border-top:1px solid rgba(29,33,30,.1)">
+                      <sc-for list="{{ g.items }}" as="a" hint-placeholder-count="3">
+                        <button onClick="{{ a.onClick }}" style="background:none;border:none;border-bottom:1px solid rgba(29,33,30,.1);padding:14px 0;display:flex;align-items:center;gap:14px;text-align:left;color:inherit;min-height:56px">
+                          <span style="width:20px;height:20px;border-radius:4px;border:1px solid {{ a.bd }};background:{{ a.bg }};color:#F5F1EA;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background-color .15s ease">{{ a.mark }}</span>
+                          <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px">{{ a.name }}</span><span style="font-size:13px;color:#5F625C">{{ a.note }}</span></span>
+                          <span style="font-size:14px">{{ a.price }}</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <button onClick="{{ s1.onNext }}" style="align-self:flex-start;background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:13px 22px;font-size:14px">Continue</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- STEP 3 -->
+      <div style="background:#FBF9F5;border:1px solid {{ s2.bd }};border-radius:6px;transition:border-color .25s ease">
+        <button onClick="{{ s2.onHead }}" style="width:100%;background:none;border:none;padding:22px 24px;display:flex;align-items:center;gap:18px;text-align:left;color:inherit;opacity:{{ s2.op }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36;letter-spacing:.1em">03</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Restore · Kerala</span><span style="font-size:13px;color:#5F625C">{{ s2.summary }}</span></span>
+          <span style="font-size:13px;color:#5F625C">{{ s2.action }}</span>
+        </button>
+        <sc-if value="{{ s2.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:24px">
+            <button onClick="{{ tg.restore.onClick }}" style="align-self:flex-start;background:none;border:none;padding:0;display:flex;align-items:center;gap:12px;font-size:14px;color:#3F433E">
+              <span style="width:40px;height:24px;border-radius:999px;background:{{ tg.restore.bg }};position:relative;transition:background-color .2s ease"><span style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#FBF9F5;transform:translateX({{ tg.restore.x }});transition:transform .2s ease"></span></span>
+              Include the Ayurveda retreat
+            </button>
+            <sc-if value="{{ cfg.restore }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:24px">
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Duration</div>
+                  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(29,33,30,.14);border:1px solid rgba(29,33,30,.14);border-radius:6px;overflow:hidden">
+                    <sc-for list="{{ restoreDur }}" as="d" hint-placeholder-count="3"><button onClick="{{ d.onClick }}" style="background:{{ d.bg }};color:{{ d.fg }};border:none;padding:14px 10px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;transition:background-color .2s ease"><span style="font-size:15px;font-weight:500">{{ d.label }}</span><span style="font-size:12px;opacity:.8;line-height:1.35">{{ d.note }}</span></button></sc-for>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Accommodation</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">
+                    <sc-for list="{{ roomCards }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.onClick }}" style="text-align:left;background:{{ r.bg }};border:1px solid {{ r.bd }};border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:4px;color:inherit;transition:border-color .2s ease"><span style="font-weight:500;font-size:15px">{{ r.name }}</span><span style="font-size:13px;color:#5F625C">{{ r.note }}</span><span style="font-size:14px;margin-top:6px">{{ r.rate }} / night</span></button></sc-for>
+                  </div>
+                </div>
+                <div style="font-size:13px;color:#5F625C;line-height:1.6">Included: Vaidya consultation · Prakriti assessment · Panchakarma · daily Abhyanga · Shirodhara · sattvic full board</div>
+              </div>
+            </sc-if>
+            <button onClick="{{ s2.onNext }}" style="align-self:flex-start;background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:13px 22px;font-size:14px">Continue</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- STEP 4 -->
+      <div style="background:#FBF9F5;border:1px solid {{ s3.bd }};border-radius:6px;transition:border-color .25s ease">
+        <button onClick="{{ s3.onHead }}" style="width:100%;background:none;border:none;padding:22px 24px;display:flex;align-items:center;gap:18px;text-align:left;color:inherit;opacity:{{ s3.op }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36;letter-spacing:.1em">04</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Realign · by the sea</span><span style="font-size:13px;color:#5F625C">{{ s3.summary }}</span></span>
+          <span style="font-size:13px;color:#5F625C">{{ s3.action }}</span>
+        </button>
+        <sc-if value="{{ s3.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:24px">
+            <button onClick="{{ tg.realign.onClick }}" style="align-self:flex-start;background:none;border:none;padding:0;display:flex;align-items:center;gap:12px;font-size:14px;color:#3F433E">
+              <span style="width:40px;height:24px;border-radius:999px;background:{{ tg.realign.bg }};position:relative;transition:background-color .2s ease"><span style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#FBF9F5;transform:translateX({{ tg.realign.x }});transition:transform .2s ease"></span></span>
+              Include the yoga retreat
+            </button>
+            <sc-if value="{{ cfg.realign }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:24px">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">
+                  <sc-for list="{{ destCards }}" as="d" hint-placeholder-count="2"><button onClick="{{ d.onClick }}" style="text-align:left;background:{{ d.bg }};border:1px solid {{ d.bd }};border-radius:6px;padding:0;overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:border-color .2s ease"><span style="aspect-ratio:16/9;width:100%;position:relative;overflow:hidden;background:repeating-linear-gradient(135deg,#E2D8C6 0 12px,#E8DFCF 12px 24px);display:flex;align-items:flex-end;padding:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F625C;text-transform:uppercase">{{ d.img }}<sc-if value="{{ d.hasSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ d.src }}" alt="{{ d.name }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if></span><span style="padding:14px 16px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500;font-size:15px">{{ d.name }}</span><span style="font-size:13px;color:#5F625C">{{ d.note }}</span><span style="font-size:14px;margin-top:4px">{{ d.rate }} / night</span></span></button></sc-for>
+                </div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Duration</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ realignDur }}" as="d" hint-placeholder-count="3"><button onClick="{{ d.onClick }}" style="background:{{ d.bg }};color:{{ d.fg }};border:1px solid {{ d.bd }};border-radius:999px;padding:11px 18px;font-size:14px;transition:background-color .2s ease">{{ d.label }}</button></sc-for></div>
+                </div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Practice focus</div>
+                  <div style="display:flex;flex-direction:column;border-top:1px solid rgba(29,33,30,.1)"><sc-for list="{{ practiceOpts }}" as="p" hint-placeholder-count="3"><button onClick="{{ p.onClick }}" style="background:none;border:none;border-bottom:1px solid rgba(29,33,30,.1);padding:14px 0;display:flex;align-items:center;gap:14px;text-align:left;color:inherit;min-height:52px"><span style="width:14px;height:14px;border-radius:50%;border:1px solid #1E3A2E;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="width:8px;height:8px;border-radius:50%;background:{{ p.dot }}"></span></span><span style="flex:1;font-size:15px">{{ p.name }}</span><span style="font-size:13px;color:#5F625C">{{ p.note }}</span></button></sc-for></div>
+                </div>
+                <div style="font-size:13px;color:#5F625C;line-height:1.6">Included: twice-daily practice · pranayama · meditation · Yoga Nidra · two private sessions · villa with full board</div>
+              </div>
+            </sc-if>
+            <button onClick="{{ s3.onNext }}" style="align-self:flex-start;background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:13px 22px;font-size:14px">Review journey</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ reviewReady }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed rgba(29,33,30,.25);border-radius:6px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+          <span style="font-size:14px;color:#3F433E;max-width:48ch;line-height:1.55">Next: a care advisor confirms dates, completes a short medical intake with you, and issues your fixed quote. No payment until then.</span>
+          <button onClick="{{ reserve }}" style="background:#A6864A;color:#152A21;border:none;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:500">Reserve with an advisor</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- SUMMARY -->
+    <aside ref="{{ summaryRef }}" style="position:{{ layout.pos }};top:96px;max-height:{{ layout.sumMax }};overflow-y:auto;overscroll-behavior:contain;background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;overflow:hidden">
+      <div style="padding:24px 24px 20px;border-bottom:1px solid rgba(29,33,30,.1)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5F625C">Your journey</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;gap:12px"><span style="font-family:'Newsreader',Georgia,serif;font-size:40px;line-height:1">{{ sum.total }}</span><span style="font-size:14px;color:#5F625C">{{ sum.days }} days</span></div>
+        <div style="font-size:12px;color:#5F625C;margin-top:4px">per person · all-inclusive in India</div>
+        <div style="display:flex;height:6px;gap:2px;margin-top:18px"><sc-for list="{{ sum.segs }}" as="s" hint-placeholder-count="3"><div style="flex:{{ s.n }};background:{{ s.color }};border-radius:3px;transition:flex-grow .35s ease"></div></sc-for></div>
+        <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap"><sc-for list="{{ sum.segs }}" as="s" hint-placeholder-count="3"><span style="display:flex;gap:6px;align-items:center;font-size:12px;color:#3F433E"><span style="width:8px;height:8px;border-radius:2px;background:{{ s.color }}"></span>{{ s.label }} · {{ s.n }}n</span></sc-for></div>
+      </div>
+      <div style="padding:18px 24px;border-bottom:1px solid rgba(29,33,30,.1);display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ sum.lines }}" as="ln" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span style="display:flex;flex-direction:column;gap:2px"><span>{{ ln.l }}</span><span style="font-size:12px;color:#5F625C">{{ ln.s }}</span></span><span style="white-space:nowrap">{{ ln.v }}</span></div></sc-for>
+        <div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span style="display:flex;flex-direction:column;gap:2px"><span>Logistics &amp; coordinator</span><span style="font-size:12px;color:#5F625C">Visa help, all transfers, 24/7 line</span></span><span style="color:#1E3A2E">Included</span></div>
+      </div>
+      <div style="padding:18px 24px 8px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5F625C;margin-bottom:12px">Itinerary</div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ sum.rows }}" as="r" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:78px 1fr;gap:12px;padding:9px 0;border-top:1px solid rgba(29,33,30,.07)"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5F625C;padding-top:2px">{{ r.d }}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;display:flex;gap:8px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.color }};flex-shrink:0"></span>{{ r.t }}</span><span style="font-size:12px;color:#5F625C;line-height:1.4">{{ r.s }}</span></span></div></sc-for>
+        </div>
+      </div>
+      <div style="padding:16px 24px 24px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ reserve }}" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px;font-size:14px;font-weight:500;transition:background-color .2s ease" style-hover="background:#152A21">Reserve with a care advisor</button>
+        <div style="font-size:12px;color:#5F625C;line-height:1.5;text-align:center">Excludes international flights. Fixed quote confirmed after medical intake.</div>
+      </div>
+    </aside>
+  </div>
+
+  <sc-if value="{{ layout.mobileBar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:45;background:#FBF9F5;border-top:1px solid rgba(29,33,30,.12);padding:12px 20px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span style="display:flex;flex-direction:column"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px;line-height:1.1">{{ sum.total }}</span><span style="font-size:12px;color:#5F625C">{{ sum.days }} days · per person</span></span>
+      <button onClick="{{ toSummary }}" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:13px 20px;font-size:14px;min-height:44px">View itinerary</button>
+    </div>
+  </sc-if>
+</main>
+</sc-if>
+
+<!-- ============ PACKAGE ============ -->
+<sc-if value="{{ isPackage }}" hint-placeholder-val="{{ false }}">
+<main>
+  <section style="position:relative;height:clamp(460px,72vh,720px);background:repeating-linear-gradient(135deg,#1B3529 0 16px,#1F3B2E 16px 32px);color:#F5F1EA;overflow:hidden">
+    <video data-bg="1" src="{{ pkg.video }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,42,33,0) 40%,rgba(21,42,33,.7) 100%)"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 48px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px"><sc-for list="{{ pkgTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.onClick }}" style="background:{{ t.bg }};color:{{ t.fg }};border:1px solid rgba(245,241,234,.4);border-radius:999px;padding:9px 16px;font-size:13px;transition:background-color .2s ease">{{ t.name }}</button></sc-for></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9B68E">Signature journey · {{ pkg.days }} days</div>
+      <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(44px,7vw,100px);line-height:1;letter-spacing:-.02em;margin:14px 0 0">{{ pkg.name }}</h1>
+    </div>
+  </section>
+  <section style="max-width:1320px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,48px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:1px;background:rgba(29,33,30,.12);border:1px solid rgba(29,33,30,.12);border-radius:6px;overflow:hidden">
+      <div style="background:#FBF9F5;padding:22px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Duration</div><div style="font-family:'Newsreader',Georgia,serif;font-size:30px;margin-top:8px">{{ pkg.days }} days</div></div>
+      <div style="background:#FBF9F5;padding:22px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Route</div><div style="font-family:'Newsreader',Georgia,serif;font-size:22px;margin-top:8px;line-height:1.3">{{ pkg.route }}</div></div>
+      <div style="background:#FBF9F5;padding:22px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Screening</div><div style="font-family:'Newsreader',Georgia,serif;font-size:30px;margin-top:8px">{{ pkg.tier }}</div></div>
+      <div style="background:#FBF9F5;padding:22px"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C">Per person</div><div style="font-family:'Newsreader',Georgia,serif;font-size:30px;margin-top:8px">{{ pkg.price }}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(40px,6vw,96px);margin-top:clamp(56px,7vw,96px);align-items:start">
+      <div>
+        <p style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(24px,2.6vw,32px);line-height:1.3;margin:0 0 40px;text-wrap:pretty">{{ pkg.line }}</p>
+        <div style="display:flex;flex-direction:column;gap:32px">
+          <sc-for list="{{ pkg.incl }}" as="g" hint-placeholder-count="3">
+            <div style="border-top:1px solid rgba(29,33,30,.14);padding-top:18px">
+              <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap"><span style="display:flex;gap:10px;align-items:center"><span style="width:8px;height:8px;border-radius:2px;background:{{ g.color }}"></span><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">{{ g.title }}</span></span><span style="font-size:13px;color:#5F625C">{{ g.where }}</span></div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:8px 24px;margin-top:14px"><sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4"><div style="font-size:14px;line-height:1.5;color:#3F433E">{{ it }}</div></sc-for></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:48px">
+          <button onClick="{{ customisePkg }}" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px 24px;font-size:14px;font-weight:500">Customise this journey</button>
+          <button onClick="{{ reservePkg }}" style="background:none;color:#1D211E;border:1px solid rgba(29,33,30,.25);border-radius:999px;padding:15px 24px;font-size:14px" style-hover="background:#EDE6DA">Speak to an advisor</button>
+        </div>
+      </div>
+      <div style="background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;padding:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5F625C;margin-bottom:12px">Day by day</div>
+        <sc-for list="{{ pkg.rows }}" as="r" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:84px 1fr;gap:12px;padding:12px 0;border-top:1px solid rgba(29,33,30,.07)"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5F625C;padding-top:3px">{{ r.d }}</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;display:flex;gap:8px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.color }};flex-shrink:0"></span>{{ r.t }}</span><span style="font-size:13px;color:#5F625C;line-height:1.45">{{ r.s }}</span></span></div></sc-for>
+        <div style="border-top:1px solid rgba(29,33,30,.1);margin-top:8px;padding-top:16px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ pkg.lines }}" as="ln" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span>{{ ln.l }}</span><span>{{ ln.v }}</span></div></sc-for>
+          <div style="display:flex;justify-content:space-between;gap:16px;font-size:14px"><span>Logistics &amp; coordinator</span><span style="color:#1E3A2E">Included</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding-top:12px;border-top:1px solid rgba(29,33,30,.1)"><span style="font-size:14px">Total per person</span><span style="font-family:'Newsreader',Georgia,serif;font-size:26px">{{ pkg.price }}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<!-- ============ HOW IT WORKS ============ -->
+<sc-if value="{{ isHow }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1320px;margin:0 auto;padding:140px clamp(20px,4vw,48px) 120px">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">How it works</div>
+  <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(40px,6vw,84px);line-height:1;margin:14px 0 24px;letter-spacing:-.01em;max-width:14ch">From first call to flight home.</h1>
+  <p style="font-size:18px;line-height:1.6;color:#3F433E;max-width:52ch;margin:0">You make three decisions: what, where and how long. We take care of everything in between.</p>
+  <div style="margin-top:80px;display:flex;flex-direction:column">
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:32px 0;border-top:1px solid rgba(29,33,30,.14)"><div style="display:flex;gap:20px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36">01</span><span style="font-family:'Newsreader',Georgia,serif;font-size:32px">Conversation</span></div><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">A 30-minute call with a care advisor about your goals and health history, or begin with our concierge online.</p></div>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:32px 0;border-top:1px solid rgba(29,33,30,.14)"><div style="display:flex;gap:20px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36">02</span><span style="font-family:'Newsreader',Georgia,serif;font-size:32px">Medical intake</span></div><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">A short, secure questionnaire. Our physicians tailor your screening and flag anything to prepare in advance.</p></div>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:32px 0;border-top:1px solid rgba(29,33,30,.14)"><div style="display:flex;gap:20px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36">03</span><span style="font-family:'Newsreader',Georgia,serif;font-size:32px">Your plan</span></div><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">A fixed, all-inclusive quote and a day-by-day itinerary. Your visa invitation letter is issued within 48 hours.</p></div>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:32px 0;border-top:1px solid rgba(29,33,30,.14)"><div style="display:flex;gap:20px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36">04</span><span style="font-family:'Newsreader',Georgia,serif;font-size:32px">The journey</span></div><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">Your coordinator meets you on arrival. Hospital, resort and villa are pre-briefed; transfers between legs are escorted.</p></div>
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:32px 0;border-top:1px solid rgba(29,33,30,.14);border-bottom:1px solid rgba(29,33,30,.14)"><div style="display:flex;gap:20px;align-items:baseline"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A6D36">05</span><span style="font-family:'Newsreader',Georgia,serif;font-size:32px">Aftercare</span></div><p style="margin:0;font-size:16px;line-height:1.6;color:#3F433E">A 90-day follow-up with your physician, and your records shared securely with your doctor at home.</p></div>
+  </div>
+  <div style="margin-top:120px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(40px,6vw,96px);align-items:start">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Questions</div><h2 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(34px,4vw,52px);line-height:1.05;margin:14px 0 20px">What guests ask first.</h2><button onClick="{{ openAdvisor }}" style="background:none;border:1px solid rgba(29,33,30,.25);border-radius:999px;padding:12px 20px;font-size:14px;color:#1D211E" style-hover="background:#EDE6DA">Ask a care advisor</button></div>
+    <div style="display:flex;flex-direction:column;border-top:1px solid rgba(29,33,30,.14)">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div style="border-bottom:1px solid rgba(29,33,30,.14)">
+          <button onClick="{{ f.onClick }}" style="width:100%;background:none;border:none;padding:22px 0;display:flex;justify-content:space-between;gap:16px;text-align:left;color:inherit;font-size:17px;min-height:56px"><span>{{ f.q }}</span><span style="font-size:20px;line-height:1;color:#8A6D36;transform:rotate({{ f.rot }});transition:transform .25s ease">+</span></button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}"><p style="margin:0 0 22px;font-size:15px;line-height:1.65;color:#3F433E;max-width:60ch">{{ f.a }}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</main>
+</sc-if>
+
+<!-- ============ CONTACT ============ -->
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<main style="max-width:1320px;margin:0 auto;padding:140px clamp(20px,4vw,48px) 120px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(48px,6vw,96px);align-items:start">
+  <div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Contact</div>
+    <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(40px,6vw,80px);line-height:1;margin:14px 0 24px;letter-spacing:-.01em">Speak to a care advisor.</h1>
+    <p style="font-size:17px;line-height:1.6;color:#3F433E;margin:0;max-width:44ch">Our advisors are clinically trained and reply within four working hours, seven days a week.</p>
+    <div style="margin-top:48px;display:flex;flex-direction:column;border-top:1px solid rgba(29,33,30,.14)">
+      <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid rgba(29,33,30,.14);color:#1D211E"><span style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">WhatsApp</span><span style="font-size:14px;color:#5F625C">+91 00000 00000 · 08:00–22:00 IST</span></span><span style="font-size:14px">Open →</span></a>
+      <button onClick="{{ openCallback }}" style="background:none;border:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid rgba(29,33,30,.14);color:#1D211E;text-align:left"><span style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Book a callback</span><span style="font-size:14px;color:#5F625C">Choose a time that suits your time zone</span></span><span style="font-size:14px">Choose →</span></button>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid rgba(29,33,30,.14)"><span style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Newsreader',Georgia,serif;font-size:24px">Email</span><span style="font-size:14px;color:#5F625C">care@wellvoy.com</span></span></div>
+    </div>
+  </div>
+  <div style="background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;padding:clamp(24px,3vw,40px)">
+    <sc-if value="{{ msgSent }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:12px;padding:24px 0"><div style="font-family:'Newsreader',Georgia,serif;font-size:32px">Thank you, {{ form.name }}.</div><p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E">A care advisor will write to {{ form.email }} within four working hours.</p><button onClick="{{ resetMsg }}" style="align-self:flex-start;background:none;border:none;padding:0;font-size:14px;color:#1E3A2E;text-decoration:underline">Send another message</button></div>
+    </sc-if>
+    <sc-if value="{{ msgOpen }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submitMsg }}" style="display:flex;flex-direction:column;gap:18px" novalidate="novalidate">
+        <div style="font-family:'Newsreader',Georgia,serif;font-size:26px">Send a message</div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Full name<input value="{{ form.name }}" onChange="{{ onF.name }}" style="padding:13px 14px;border:1px solid {{ err.nameBd }};border-radius:6px;background:#F5F1EA;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"><span style="font-size:12px;color:#9A3B2E">{{ err.name }}</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Email<input type="email" value="{{ form.email }}" onChange="{{ onF.email }}" style="padding:13px 14px;border:1px solid {{ err.emailBd }};border-radius:6px;background:#F5F1EA;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"><span style="font-size:12px;color:#9A3B2E">{{ err.email }}</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Country of residence<input value="{{ form.country }}" onChange="{{ onF.country }}" style="padding:13px 14px;border:1px solid rgba(29,33,30,.18);border-radius:6px;background:#F5F1EA;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">How can we help?<textarea rows="5" value="{{ form.message }}" onChange="{{ onF.message }}" style="padding:13px 14px;border:1px solid {{ err.messageBd }};border-radius:6px;background:#F5F1EA;font-size:15px;color:#1D211E;outline:none;resize:vertical" style-focus="border-color:#1E3A2E"></textarea><span style="font-size:12px;color:#9A3B2E">{{ err.message }}</span></label>
+        <button type="submit" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px;font-size:14px;font-weight:500">Send to a care advisor</button>
+        <div style="font-size:12px;color:#5F625C;line-height:1.5">Your details are handled under medical confidentiality and never shared.</div>
+      </form>
+    </sc-if>
+  </div>
+</main>
+</sc-if>
+
+<!-- FOOTER -->
+<footer style="background:#152A21;color:#DCD3C4">
+  <div style="max-width:1320px;margin:0 auto;padding:72px clamp(20px,4vw,48px) calc(40px + {{ layout.footPad }});display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:40px">
+    <div><div style="font-family:'Newsreader',Georgia,serif;font-size:30px;color:#F5F1EA">WellVoy</div><p style="font-size:14px;line-height:1.6;margin:12px 0 0;max-width:30ch">Preventive health journeys through India. Diagnose, restore, realign.</p></div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px"><sc-for list="{{ navLinks }}" as="l" hint-placeholder-count="4"><button onClick="{{ l.onClick }}" style="background:none;border:none;padding:0;color:#DCD3C4;text-align:left;font-size:14px" style-hover="color:#F5F1EA">{{ l.label }}</button></sc-for></div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px"><span>care@wellvoy.com</span><span>WhatsApp +91 00000 00000</span><span>Bengaluru · Calicut · London</span></div>
+    <div style="font-size:12px;line-height:1.6;color:#B5AD9E">Partner hospitals JCI &amp; NABH accredited. WellVoy coordinates travel and care; clinical services are delivered by licensed partner providers. Sample content and prices.</div>
+  </div>
+</footer>
+
+<!-- ADVISOR FAB -->
+<button onClick="{{ openAdvisor }}" style="position:fixed;right:clamp(16px,2.5vw,28px);bottom:{{ layout.fabBottom }};z-index:44;background:#FBF9F5;color:#1D211E;border:1px solid rgba(29,33,30,.14);border-radius:999px;padding:12px 18px 12px 14px;font-size:13px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(21,42,33,.12);min-height:48px;transition:transform .2s ease" style-hover="transform:translateY(-2px)">
+  <span style="width:8px;height:8px;border-radius:50%;background:#4E8A63"></span>Speak to a Care Advisor
+</button>
+
+<!-- ADVISOR DRAWER -->
+<div onClick="{{ closeAdvisor }}" style="position:fixed;inset:0;z-index:70;background:rgba(21,42,33,.35);opacity:{{ drawer.op }};pointer-events:{{ drawer.pe }};transition:opacity .3s ease"></div>
+<aside style="position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(460px,100vw);background:#F5F1EA;transform:translateX({{ drawer.x }});transition:transform {{ drawer.dur }} cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom)">
+  <div style="padding:24px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(29,33,30,.1)">
+    <div><div style="font-family:'Newsreader',Georgia,serif;font-size:26px">Care Advisor</div><div style="font-size:13px;color:#5F625C;display:flex;gap:8px;align-items:center;margin-top:4px"><span style="width:7px;height:7px;border-radius:50%;background:#4E8A63"></span>Available now · replies within 4 hours</div></div>
+    <button onClick="{{ closeAdvisor }}" style="background:none;border:1px solid rgba(29,33,30,.2);border-radius:999px;width:44px;height:44px;font-size:18px;color:#1D211E" aria-label="Close">×</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);margin:20px 28px 0;background:#E7DDCC;border-radius:999px;padding:4px">
+    <sc-for list="{{ advTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.onClick }}" style="background:{{ t.bg }};border:none;border-radius:999px;padding:10px 6px;font-size:13px;color:#1D211E;transition:background-color .2s ease;min-height:40px">{{ t.label }}</button></sc-for>
+  </div>
+  <div style="padding:24px 28px 40px;flex:1">
+    <sc-if value="{{ advTab.callback }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ cbSent }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px"><div style="font-family:'Newsreader',Georgia,serif;font-size:28px">You're booked.</div><p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E">An advisor will call {{ cb.phone }} on {{ cbDayLabel }} at {{ cb.slot }} (your local time).</p><button onClick="{{ resetCb }}" style="align-self:flex-start;background:none;border:none;padding:0;font-size:14px;color:#1E3A2E;text-decoration:underline">Change time</button></div>
+      </sc-if>
+      <sc-if value="{{ cbOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E">A 20-minute call, no obligation. Times are in your local time zone.</p>
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Day</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px"><sc-for list="{{ cbDays }}" as="d" hint-placeholder-count="7"><button onClick="{{ d.onClick }}" style="background:{{ d.bg }};color:{{ d.fg }};border:1px solid {{ d.bd }};border-radius:6px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:56px;transition:background-color .2s ease"><span style="font-size:11px;opacity:.75">{{ d.dow }}</span><span style="font-size:17px">{{ d.num }}</span></button></sc-for></div></div>
+          <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5F625C;margin-bottom:10px">Time</div><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ cbSlots }}" as="s" hint-placeholder-count="5"><button onClick="{{ s.onClick }}" style="background:{{ s.bg }};color:{{ s.fg }};border:1px solid {{ s.bd }};border-radius:999px;padding:10px 16px;font-size:14px;min-height:44px;transition:background-color .2s ease">{{ s.label }}</button></sc-for></div></div>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Phone, with country code<input type="tel" value="{{ cb.phone }}" onChange="{{ onCbPhone }}" placeholder="+44 7700 900000" style="padding:13px 14px;border:1px solid rgba(29,33,30,.18);border-radius:6px;background:#FBF9F5;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"></label>
+          <span style="font-size:12px;color:#9A3B2E">{{ cbErr }}</span>
+          <button onClick="{{ submitCb }}" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px;font-size:14px;font-weight:500">Book callback</button>
+        </div>
+      </sc-if>
+    </sc-if>
+    <sc-if value="{{ advTab.whatsapp }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E">Message an advisor directly. We'll include your current journey so you don't have to explain it.</p>
+        <div style="background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;padding:16px;font-size:14px;line-height:1.55;color:#3F433E">{{ waText }}</div>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style="background:#1E3A2E;color:#F5F1EA;border-radius:999px;padding:15px;font-size:14px;font-weight:500;text-align:center">Open WhatsApp</a>
+        <div style="font-size:12px;color:#5F625C">+91 00000 00000 · 08:00–22:00 IST, every day</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ advTab.message }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ msgSent }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px"><div style="font-family:'Newsreader',Georgia,serif;font-size:28px">Thank you, {{ form.name }}.</div><p style="margin:0;font-size:15px;line-height:1.6;color:#3F433E">An advisor will write to {{ form.email }} within four working hours.</p><button onClick="{{ resetMsg }}" style="align-self:flex-start;background:none;border:none;padding:0;font-size:14px;color:#1E3A2E;text-decoration:underline">Send another</button></div>
+      </sc-if>
+      <sc-if value="{{ msgOpen }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submitMsg }}" style="display:flex;flex-direction:column;gap:16px" novalidate="novalidate">
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Full name<input value="{{ form.name }}" onChange="{{ onF.name }}" style="padding:13px 14px;border:1px solid {{ err.nameBd }};border-radius:6px;background:#FBF9F5;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"><span style="font-size:12px;color:#9A3B2E">{{ err.name }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Email<input type="email" value="{{ form.email }}" onChange="{{ onF.email }}" style="padding:13px 14px;border:1px solid {{ err.emailBd }};border-radius:6px;background:#FBF9F5;font-size:15px;color:#1D211E;outline:none" style-focus="border-color:#1E3A2E"><span style="font-size:12px;color:#9A3B2E">{{ err.email }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3F433E">Message<textarea rows="6" value="{{ form.message }}" onChange="{{ onF.message }}" style="padding:13px 14px;border:1px solid {{ err.messageBd }};border-radius:6px;background:#FBF9F5;font-size:15px;color:#1D211E;outline:none;resize:vertical" style-focus="border-color:#1E3A2E"></textarea><span style="font-size:12px;color:#9A3B2E">{{ err.message }}</span></label>
+          <button type="submit" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px;font-size:14px;font-weight:500">Send</button>
+        </form>
+      </sc-if>
+    </sc-if>
+  </div>
+</aside>
+
+<!-- CONCIERGE -->
+<sc-if value="{{ cOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:80;background:#F5F1EA;overflow-y:auto;overscroll-behavior:contain">
+    <div style="position:sticky;top:0;background:#F5F1EA;border-bottom:1px solid rgba(29,33,30,.08);z-index:1">
+      <div style="max-width:760px;margin:0 auto;padding:16px clamp(20px,4vw,32px);display:flex;justify-content:space-between;align-items:center;gap:16px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:36px;height:36px;border-radius:50%;background:#1E3A2E;color:#F5F1EA;display:flex;align-items:center;justify-content:center;font-family:'Newsreader',Georgia,serif;font-size:17px">W</span><span style="display:flex;flex-direction:column"><span style="font-size:14px;font-weight:500">WellVoy Concierge</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#5F625C;text-transform:uppercase">{{ c.progress }}</span></span></div>
+        <button onClick="{{ closeConcierge }}" style="background:none;border:1px solid rgba(29,33,30,.2);border-radius:999px;padding:10px 16px;font-size:13px;color:#1D211E;min-height:44px">Close</button>
+      </div>
+      <div style="height:2px;background:rgba(29,33,30,.06)"><div style="height:100%;width:{{ c.pct }};background:#A6864A;transition:width .4s ease"></div></div>
+    </div>
+    <div style="max-width:760px;margin:0 auto;padding:clamp(40px,7vh,80px) clamp(20px,4vw,32px) 120px;display:flex;flex-direction:column;gap:36px">
+      <sc-for list="{{ c.transcript }}" as="x" hint-placeholder-count="0">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <p style="margin:0;font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:22px;line-height:1.35;color:#5F625C">{{ x.q }}</p>
+          <div style="align-self:flex-end;display:flex;align-items:center;gap:12px"><span style="background:#E7DDCC;border-radius:999px;padding:10px 16px;font-size:14px;color:#1D211E">{{ x.a }}</span><button onClick="{{ x.onEdit }}" style="background:none;border:none;font-size:12px;color:#5F625C;text-decoration:underline;padding:6px">Edit</button></div>
+        </div>
+      </sc-for>
+
+      <sc-if value="{{ c.asking }}" hint-placeholder-val="{{ true }}">
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:24px">
+          <p style="margin:0;font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(28px,4vw,40px);line-height:1.2;letter-spacing:-.01em;text-wrap:pretty">{{ c.q }}</p>
+          <sc-if value="{{ c.hint }}" hint-placeholder-val="{{ false }}"><p style="margin:-12px 0 0;font-size:14px;color:#5F625C">{{ c.hint }}</p></sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.onClick }}" style="background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.bd }};border-radius:999px;padding:12px 18px;font-size:15px;min-height:46px;transition:background-color .2s ease,color .2s ease,border-color .2s ease">{{ o.label }}</button></sc-for></div>
+          <sc-if value="{{ c.hasText }}" hint-placeholder-val="{{ false }}"><textarea rows="3" value="{{ c.text }}" onChange="{{ c.onText }}" placeholder="Anything else I should know? A medication, a past procedure, a worry…" style="padding:14px 16px;border:1px solid rgba(29,33,30,.18);border-radius:6px;background:#FBF9F5;font-size:15px;color:#1D211E;outline:none;resize:vertical" style-focus="border-color:#1E3A2E"></textarea></sc-if>
+          <sc-if value="{{ c.multi }}" hint-placeholder-val="{{ false }}"><button onClick="{{ c.onNext }}" style="align-self:flex-start;background:{{ c.nextBg }};color:#F5F1EA;border:none;border-radius:999px;padding:14px 24px;font-size:14px;transition:background-color .2s ease">Continue</button></sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ c.thinking }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:300;font-size:24px;color:#5F625C">Thank you. One moment while I shape something for you…</p>
+      </sc-if>
+
+      <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}">
+        <div data-reveal="1" style="display:flex;flex-direction:column;gap:24px">
+          <p style="margin:0;font-family:'Newsreader',Georgia,serif;font-weight:300;font-size:clamp(24px,3.2vw,32px);line-height:1.35;text-wrap:pretty">{{ c.note }}</p>
+          <div style="background:#FBF9F5;border:1px solid rgba(29,33,30,.1);border-radius:6px;overflow:hidden">
+            <div style="padding:24px;border-bottom:1px solid rgba(29,33,30,.1);display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+              <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8A6D36">Suggested for you</div><div style="font-family:'Newsreader',Georgia,serif;font-size:28px;margin-top:8px">{{ c.title }}</div></div>
+              <div style="text-align:right"><div style="font-family:'Newsreader',Georgia,serif;font-size:30px">{{ c.price }}</div><div style="font-size:13px;color:#5F625C">{{ c.days }} days · per person</div></div>
+            </div>
+            <div style="display:flex;height:6px;gap:2px;margin:20px 24px 0"><sc-for list="{{ c.segs }}" as="s" hint-placeholder-count="3"><div style="flex:{{ s.n }};background:{{ s.color }};border-radius:3px"></div></sc-for></div>
+            <div style="padding:20px 24px 24px;display:flex;flex-direction:column;gap:14px"><sc-for list="{{ c.reasons }}" as="r" hint-placeholder-count="3"><div style="display:flex;gap:12px;font-size:15px;line-height:1.5"><span style="width:8px;height:8px;border-radius:2px;background:{{ r.color }};margin-top:7px;flex-shrink:0"></span><span><strong style="font-weight:500">{{ r.h }}</strong> — {{ r.t }}</span></div></sc-for></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <button onClick="{{ c.apply }}" style="background:#1E3A2E;color:#F5F1EA;border:none;border-radius:999px;padding:15px 24px;font-size:14px;font-weight:500">Open in the configurator</button>
+            <button onClick="{{ c.toAdvisor }}" style="background:none;color:#1D211E;border:1px solid rgba(29,33,30,.25);border-radius:999px;padding:15px 24px;font-size:14px">Discuss with an advisor</button>
+            <button onClick="{{ c.restart }}" style="background:none;border:none;color:#5F625C;padding:15px 8px;font-size:14px;text-decoration:underline">Start again</button>
+          </div>
+          <p style="margin:0;font-size:12px;color:#5F625C;line-height:1.5">A suggestion, not medical advice. Your screening is finalised by our physicians after a short medical intake.</p>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;currency&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;USD&quot;,&quot;EUR&quot;,&quot;GBP&quot;],&quot;default&quot;:&quot;USD&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pricing&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;reduced&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experience&quot;},&quot;aiConcierge&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experience&quot;}}">
+const COL = { diag: '#8FA39A', restore: '#1E3A2E', realign: '#A6864A' };
+const RATES = { USD: ['$', 1], EUR: ['€', 0.92], GBP: ['£', 0.79] };
+const TIERS = [
+  { id: 'essential', name: 'Essential', price: 1450, days: 1, meta: '1 day · 22 assessments', blurb: 'A rigorous baseline for the proactive.' },
+  { id: 'advanced', name: 'Advanced', price: 3200, days: 2, meta: '2 days · 34 assessments', blurb: 'Adds heart imaging and fitness capacity.' },
+  { id: 'executive', name: 'Executive', price: 5900, days: 2, meta: '2 days · 48 assessments', blurb: 'The most complete picture, head to toe.' }
+];
+const MATRIX = [
+  ['Comprehensive biomarker panel', '90 markers', '120 markers', '140+ markers'],
+  ['DEXA scan: bone density & body composition', 'y', 'y', 'y'],
+  ['Cancer markers', 'core', 'core', 'extended'],
+  ['Cardiac CT with calcium score', '', 'y', 'y'],
+  ['VO2 max & metabolic testing', '', 'y', 'y'],
+  ['Full-body MRI', '', '', 'y'],
+  ['Physician debrief & personal health report', '45 min', '60 min', '90 min + 90-day follow-up']
+];
+const tierItems = (id) => { const i = TIERS.findIndex(t => t.id === id) + 1; return MATRIX.filter(r => r[i]).map(r => r[i] === 'y' ? r[0] : r[0] + ' · ' + r[i]); };
+const ADDONS = [
+  { id: 'whitening', group: 'Dental', name: 'Professional whitening', price: 380, days: 0, note: 'Single visit' },
+  { id: 'implant', group: 'Dental', name: 'Dental implant', price: 1250, days: 2, note: 'Per implant, crown included' },
+  { id: 'veneers', group: 'Dental', name: 'Porcelain veneers', price: 2800, days: 3, note: 'Set of 8 · two visits' },
+  { id: 'smile', group: 'Dental', name: 'Smile makeover', price: 4900, days: 5, note: 'Veneers, whitening & contouring' },
+  { id: 'skin', group: 'Aesthetics', name: 'Skin rejuvenation', price: 650, days: 0, note: 'Laser & medical facial' },
+  { id: 'bleph', group: 'Aesthetics', name: 'Blepharoplasty', price: 2400, days: 5, note: 'Eyelid surgery · 5 days recovery' },
+  { id: 'facelift', group: 'Aesthetics', name: 'Facelift', price: 6200, days: 9, note: 'Includes 9 days supervised recovery' }
+];
+const CITIES = { bengaluru: { name: 'Bengaluru', airport: 'Bengaluru (BLR)', hotel: 'Taj MG Road' }, mumbai: { name: 'Mumbai', airport: 'Mumbai (BOM)', hotel: 'a partner Taj hotel' }, delhi: { name: 'New Delhi', airport: 'Delhi (DEL)', hotel: 'a partner Taj hotel' } };
+const ROOMS = { garden: { name: 'Garden Suite', rate: 460, note: 'Private garden, soft natural light' }, pavilion: { name: 'Sanctuary Suite', rate: 640, note: 'Larger suite, open views of the landscape' } };
+const PK = { 7: 'Introductory Panchakarma', 14: 'Classical Panchakarma', 21: 'Full Panchakarma & Rasayana' };
+const DESTS = {
+  goa: { name: 'Goa', place: 'Ashwem, North Goa', rate: 390, note: 'LaRiSa Resort & Spa · Nov–Apr', img: '', src: '../media/image/larisa-gallery-1-1.avif', stay: 'LaRiSa cottage suite, full board', arrive: 'Calicut → Goa by air, private car to LaRiSa, Ashwem', airport: 'Goa (GOX)' },
+  andaman: { name: 'Andaman Islands', place: 'Havelock Island', rate: 520, note: 'Beach villa · Oct–May', img: 'Photo · Havelock beach villa', src: '', stay: 'Beach villa, full board', arrive: 'Calicut → Port Blair via Chennai, private ferry to Havelock', airport: 'Port Blair (IXZ)' }
+};
+const PRACTICES = [
+  { id: 'hatha', name: 'Hatha & Yoga Nidra', note: 'Slow, restorative' },
+  { id: 'vinyasa', name: 'Vinyasa flow', note: 'Breath-led, moderate' },
+  { id: 'ashtanga', name: 'Ashtanga, Mysore style', note: 'Disciplined, strong' }
+];
+const PACKAGES = [
+  { id: 'reset', name: 'The Reset', src: '../media/image/larisa-gallery-1-1.avif', isVid: false, video: '../media/video/larisa-film.webm', line: 'A clear clinical baseline in Bengaluru, a week of Ayurveda at tulåh, and five quiet days at LaRiSa, Ashwem.', cfg: { diag: true, tier: 'essential', city: 'bengaluru', addons: [], restore: true, restoreNights: 7, room: 'garden', realign: true, dest: 'goa', realignNights: 5, practice: 'hatha' } },
+  { id: 'voyage', name: 'The Full Voyage', src: '../media/video/tulah-film.mp4#t=40', isVid: true, video: '../media/video/tulah-film.mp4', line: 'Heart imaging and fitness testing, a classical fortnight of Panchakarma, and a week of practice on Havelock Island.', cfg: { diag: true, tier: 'advanced', city: 'bengaluru', addons: [], restore: true, restoreNights: 14, room: 'garden', realign: true, dest: 'andaman', realignNights: 7, practice: 'vinyasa' } },
+  { id: 'renewal', name: 'The Executive Renewal', src: '../media/video/taj-brand-film.mp4#t=12', isVid: true, video: '../media/video/taj-brand-film.mp4', line: 'Our most complete screening including full-body MRI, three weeks of Panchakarma and Rasayana, and ten days by the Andaman Sea.', cfg: { diag: true, tier: 'executive', city: 'bengaluru', addons: [], restore: true, restoreNights: 21, room: 'pavilion', realign: true, dest: 'andaman', realignNights: 10, practice: 'hatha' } }
+];
+const FAQS = [
+  ['Is medical screening in India of international standard?', 'Our partner hospitals hold JCI and NABH accreditation, the same international and national standards used to audit leading hospitals worldwide. Imaging is reported by senior radiologists and your report is written in English.'],
+  ['What exactly does the price include?', 'Screening, treatments, accommodation, meals, all domestic flights, ferries and private transfers, visa assistance and your coordinator. International flights and personal expenses are not included.'],
+  ['Do I need a medical visa?', 'Most guests travel on India\'s e-Medical visa. We guide the application and issue the hospital invitation letter within 48 hours of confirming your plan.'],
+  ['Can I bring a partner?', 'Yes. Companions can join any leg, with or without their own screening. Your advisor will quote a shared plan.'],
+  ['What if my screening finds something?', 'Your physician explains every finding in person. If follow-up is advisable, we arrange it in India or share your records with your doctor at home, whichever you prefer.'],
+  ['When is the best time to travel?', 'October to April suits all three legs. Kerala\'s monsoon (June to September) is traditionally prized for Ayurveda; Goa and Andaman are best outside it.']
+];
+const CQ = [
+  { key: 'goals', multi: true, q: 'What would you most like to take home from this journey?', hint: 'Choose any that feel true.', opts: ['A clear picture of my health', 'Deep rest & recovery', 'A reset for body and mind', 'Fitness & longevity', 'A refreshed appearance'] },
+  { key: 'age', q: 'May I ask your age? It helps us decide which screenings are worthwhile.', opts: ['Under 35', '35–44', '45–54', '55–64', '65+'] },
+  { key: 'concerns', multi: true, text: true, q: 'Is anything on your mind, health-wise?', hint: 'Optional. Shared only with your care team.', opts: ['Heart health', 'Family history of cancer', 'Stress & sleep', 'Weight & metabolism', 'Joints or back', 'Dental', 'Nothing specific'] },
+  { key: 'length', q: 'How much time can you give yourself?', opts: ['About two weeks', 'About three weeks', 'Four weeks or more'] },
+  { key: 'month', q: 'And when would you like to travel?', opts: [] },
+  { key: 'budget', q: 'Lastly, a comfortable range per person, excluding flights?', opts: [] }
+];
+const BUDGETS = [[0, 8000], [8000, 14000], [14000, 22000], [22000, Infinity]];
+
+function compute(cfg) {
+  const rows = [], lines = [], legs = []; let day = 1, total = 0, prev = null;
+  if (cfg.diag) {
+    const t = TIERS.find(x => x.id === cfg.tier), city = CITIES[cfg.city];
+    const adds = ADDONS.filter(a => cfg.addons.includes(a.id)), ad = adds.reduce((s, a) => s + a.days, 0);
+    const n = 2 + t.days + ad;
+    rows.push({ d: 'Day 1', t: 'Arrive in ' + city.name, s: 'Met on arrival, private transfer to ' + city.hotel + ', coordinator briefing', color: COL.diag });
+    rows.push({ d: t.days > 1 ? 'Days 2–' + (1 + t.days) : 'Day 2', t: t.name + ' screening', s: 'JCI-accredited partner hospital · private suite', color: COL.diag });
+    const quick = adds.filter(a => !a.days).map(a => a.name);
+    rows.push({ d: 'Day ' + (2 + t.days), t: 'Physician debrief' + (quick.length ? ' · ' + quick.join(', ') : ''), s: 'Your personal health report, explained in person', color: COL.diag });
+    if (ad) rows.push({ d: 'Days ' + (3 + t.days) + '–' + (2 + t.days + ad), t: adds.filter(a => a.days).map(a => a.name).join(' · '), s: 'Procedures and supervised recovery', color: COL.diag });
+    lines.push({ l: t.name + ' screening', s: n + ' nights at ' + city.hotel + ', ' + city.name, v: t.price });
+    adds.forEach(a => lines.push({ l: a.name, s: a.group, v: a.price }));
+    total += t.price + adds.reduce((s, a) => s + a.price, 0);
+    legs.push({ id: 'diag', label: 'Diagnose', n, where: city.name }); day += n; prev = city.name;
+  }
+  if (cfg.restore) {
+    const r = ROOMS[cfg.room], n = cfg.restoreNights;
+    rows.push({ d: 'Day ' + day, t: prev ? 'Transfer to Kerala' : 'Arrive in Calicut', s: prev ? prev + ' → Calicut by air, 25-minute drive to tulåh' : 'Met at Calicut airport, 25-minute drive to tulåh', color: COL.restore });
+    rows.push({ d: 'Days ' + (day + 1) + '–' + (day + n - 1), t: 'Restore · ' + n + ' nights', s: r.name + ' · ' + PK[n] + ' · Shirodhara · sattvic board', color: COL.restore });
+    lines.push({ l: 'tulåh Ayurveda retreat', s: n + ' nights · ' + r.name, v: n * r.rate });
+    total += n * r.rate; legs.push({ id: 'restore', label: 'Restore', n, where: 'Kerala' }); day += n; prev = 'Calicut';
+  }
+  if (cfg.realign) {
+    const d = DESTS[cfg.dest], n = cfg.realignNights, p = PRACTICES.find(x => x.id === cfg.practice);
+    rows.push({ d: 'Day ' + day, t: prev ? 'Transfer to ' + d.name : 'Arrive in ' + d.name, s: prev ? (prev === 'Calicut' ? d.arrive : prev + ' → ' + d.name + ' by air, private transfer') : 'Met on arrival, private transfer to the villa', color: COL.realign });
+    rows.push({ d: 'Days ' + (day + 1) + '–' + (day + n - 1), t: 'Realign · ' + n + ' nights', s: d.place + ' · ' + p.name + ' · pranayama · meditation', color: COL.realign });
+    lines.push({ l: 'Yoga retreat, ' + d.name, s: n + ' nights · ' + d.stay, v: n * d.rate });
+    total += n * d.rate; legs.push({ id: 'realign', label: 'Realign', n, where: d.place }); day += n;
+    prev = d.airport;
+  }
+  const airport = cfg.realign ? DESTS[cfg.dest].airport : cfg.restore ? 'Calicut (CCJ)' : CITIES[cfg.city].airport;
+  rows.push({ d: 'Day ' + day, t: 'Depart', s: 'Private transfer to ' + airport + ' · your report travels with you', color: '#B5AD9E' });
+  return { rows, lines, legs, total, days: day };
+}
+
+class Component extends DCLogic {
+  state = {
+    page: 'home', menuOpen: false, scrolled: false, vw: typeof window !== 'undefined' ? window.innerWidth : 1280,
+    activeLeg: 0, inJourney: false,
+    cfg: { ...PACKAGES[1].cfg, addons: [] }, openStep: 0, maxStep: 0, pkgId: 'voyage', faq: 0,
+    advOpen: false, advTab: 'callback', form: { name: '', email: '', country: '', message: '' }, errs: {}, msgSent: false,
+    cb: { day: null, slot: null, phone: '' }, cbErr: '', cbSent: false,
+    cOpen: false, cStep: 0, ans: {}, cText: '', cPhase: 'ask', rec: null, recNote: ''
+  };
+  heroImg = React.createRef(); progRef = React.createRef(); summaryRef = React.createRef();
+
+  reduced() { return this.props.motion === 'reduced' || (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  fmt(usd) { const [s, r] = RATES[this.props.currency] || RATES.USD; return s + (Math.round(usd * r / 10) * 10).toLocaleString('en-US'); }
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#/', '');
+    if (['home', 'build', 'package', 'how', 'contact'].includes(h)) this.setState({ page: h });
+    this._onScroll = () => { if (!this._raf) this._raf = requestAnimationFrame(() => { this._raf = 0; this.tick(); }); };
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onResize);
+    this._io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this._io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    this._vio = new IntersectionObserver(es => es.forEach(e => { const v = e.target; v._inView = e.isIntersecting; if (e.isIntersecting && !this.reduced()) v.play().catch(() => {}); else v.pause(); }), { rootMargin: '200px 0px' });
+    this._nio = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const v = e.target; this._nio.unobserve(v); v.preload = 'metadata'; v.load(); }), { rootMargin: '400px 0px' });
+    this.scanReveal(); this.syncMedia(); this.tick();
+  }
+  componentDidUpdate() { this.scanReveal(); this.syncMedia(); const lock = this.state.advOpen || this.state.cOpen || this.state.menuOpen; document.documentElement.style.overflow = lock ? 'hidden' : ''; }
+  syncMedia() {
+    if (!this._vio) return;
+    document.querySelectorAll('video[data-bg],video[data-frame]').forEach(v => {
+      if (v._wv) return; v._wv = 1; v.muted = true; v.playsInline = true;
+      if (v.hasAttribute('data-frame')) { this._nio.observe(v); return; }
+      v.addEventListener('loadeddata', () => { if (v._inView && !this.reduced()) v.play().catch(() => {}); });
+      this._vio.observe(v);
+    });
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onResize); this._io && this._io.disconnect(); this._vio && this._vio.disconnect(); this._nio && this._nio.disconnect(); }
+
+  scanReveal() {
+    if (!this._io) return;
+    document.querySelectorAll('[data-reveal]:not([data-rv])').forEach(el => {
+      el.setAttribute('data-rv', '1');
+      if (this.reduced()) return;
+      el.style.opacity = '0'; el.style.transform = 'translate3d(0,18px,0)';
+      el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
+      this._io.observe(el);
+    });
+  }
+  tick() {
+    const y = window.scrollY, vh = window.innerHeight, up = {};
+    const scrolled = y > 40; if (scrolled !== this.state.scrolled) up.scrolled = scrolled;
+    if (this.state.page === 'home') {
+      if (this.heroImg.current && !this.reduced() && y < vh * 1.2) this.heroImg.current.style.transform = 'translate3d(0,' + (y * 0.22).toFixed(1) + 'px,0)';
+      const legs = document.querySelectorAll('[data-leg]');
+      if (legs.length === 3) {
+        const top = legs[0].getBoundingClientRect().top, bot = legs[2].getBoundingClientRect().bottom;
+        const inJ = top < vh * 0.5 && bot > vh * 0.5;
+        let act = 0; legs.forEach((el, i) => { if (el.getBoundingClientRect().top < vh * 0.5) act = i; });
+        const p = Math.min(1, Math.max(0, (vh * 0.5 - top) / (bot - top)));
+        if (this.progRef.current) this.progRef.current.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+        if (inJ !== this.state.inJourney) up.inJourney = inJ;
+        if (act !== this.state.activeLeg) up.activeLeg = act;
+      }
+    }
+    if (Object.keys(up).length) this.setState(up);
+  }
+
+  go(page) {
+    this.setState({ page, menuOpen: false });
+    try { history.replaceState(null, '', '#/' + page); } catch (e) {}
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+  setCfg(patch) { this.setState(s => ({ cfg: { ...s.cfg, ...patch } })); }
+  toggleLeg(k) {
+    const c = this.state.cfg, on = ['diag', 'restore', 'realign'].filter(x => c[x]).length;
+    if (c[k] && on === 1) return;
+    this.setCfg({ [k]: !c[k], ...(k === 'diag' && c[k] ? { addons: [] } : {}) });
+  }
+  openAdvisor(tab, message) {
+    this.setState(s => ({ advOpen: true, menuOpen: false, advTab: tab || s.advTab, ...(message ? { form: { ...s.form, message }, msgSent: false } : {}) }));
+  }
+  journeyText(cfg) {
+    const j = compute(cfg), parts = [];
+    if (cfg.diag) parts.push(TIERS.find(t => t.id === cfg.tier).name + ' screening in ' + CITIES[cfg.city].name);
+    if (cfg.restore) parts.push(cfg.restoreNights + ' nights Ayurveda in Kerala');
+    if (cfg.realign) parts.push(cfg.realignNights + ' nights yoga in ' + DESTS[cfg.dest].name);
+    return parts.join(', ') + ' (' + j.days + ' days, ' + this.fmt(j.total) + ')';
+  }
+
+  // concierge
+  monthOpts() { const out = [], d = new Date(); for (let i = 1; i <= 6; i++) { const m = new Date(d.getFullYear(), d.getMonth() + i, 1); out.push(m.toLocaleString('en-GB', { month: 'long' }) + ' ' + m.getFullYear()); } out.push('I\'m flexible'); return out; }
+  budgetOpts() { return BUDGETS.map(([a, b]) => b === Infinity ? 'Above ' + this.fmt(a) : a === 0 ? 'Under ' + this.fmt(b) : this.fmt(a) + ' – ' + this.fmt(b)); }
+  qOpts(i) { return i === 4 ? this.monthOpts() : i === 5 ? this.budgetOpts() : CQ[i].opts; }
+  answerLabel(i) { const v = this.state.ans[CQ[i].key]; const base = Array.isArray(v) ? v.join(', ') : v; return (i === 2 && this.state.cText) ? (base ? base + ' · ' : '') + '“' + this.state.cText + '”' : base || 'Skipped'; }
+  pick(i, o) {
+    const q = CQ[i];
+    if (q.multi) {
+      this.setState(s => { let cur = s.ans[q.key] || []; if (o === 'Nothing specific') cur = cur.includes(o) ? [] : [o]; else { cur = cur.filter(x => x !== 'Nothing specific'); cur = cur.includes(o) ? cur.filter(x => x !== o) : [...cur, o]; } return { ans: { ...s.ans, [q.key]: cur } }; });
+    } else {
+      this.setState(s => ({ ans: { ...s.ans, [q.key]: o } }));
+      clearTimeout(this._adv); this._adv = setTimeout(() => this.cNext(), this.reduced() ? 0 : 260);
+    }
+  }
+  cNext() {
+    const i = this.state.cStep, q = CQ[i];
+    if (q.multi && q.key === 'goals' && !(this.state.ans.goals || []).length) return;
+    if (i < CQ.length - 1) this.setState({ cStep: i + 1 });
+    else this.finish();
+  }
+  recommend() {
+    const a = this.state.ans, g = a.goals || [], c = a.concerns || [], age = a.age || '';
+    const older = ['45–54', '55–64', '65+'].includes(age), senior = ['55–64', '65+'].includes(age);
+    let tier = 'essential';
+    if (older || c.includes('Heart health') || g.includes('Fitness & longevity') || g.includes('A clear picture of my health')) tier = 'advanced';
+    if (senior || (c.includes('Family history of cancer') && older)) tier = 'executive';
+    const addons = []; if (c.includes('Dental')) addons.push('whitening'); if (g.includes('A refreshed appearance')) addons.push('skin');
+    let rn = 14, yn = 5; if (a.length === 'About two weeks') { rn = 7; yn = 5; } else if (a.length === 'Four weeks or more') { rn = 21; yn = 7; }
+    const rest = g.includes('Deep rest & recovery') || c.includes('Stress & sleep');
+    const bi = Math.max(0, this.budgetOpts().indexOf(a.budget)), max = BUDGETS[bi][1];
+    let cfg = { diag: true, tier, city: 'bengaluru', addons, restore: true, restoreNights: rn, room: bi >= 3 ? 'pavilion' : 'garden', realign: true, dest: rest ? 'andaman' : 'goa', realignNights: yn, practice: rest ? 'hatha' : g.includes('Fitness & longevity') ? 'ashtanga' : 'vinyasa' };
+    const steps = [x => x.room === 'pavilion' && { ...x, room: 'garden' }, x => x.addons.length && { ...x, addons: [] }, x => x.dest === 'andaman' && { ...x, dest: 'goa' }, x => x.restoreNights > 7 && { ...x, restoreNights: x.restoreNights - 7 }, x => x.tier === 'executive' && { ...x, tier: 'advanced' }, x => x.tier === 'advanced' && { ...x, tier: 'essential' }, x => x.realign && { ...x, realign: false }];
+    let fitted = false;
+    for (const st of steps) { if (compute(cfg).total <= max) break; const n = st(cfg); if (n) { cfg = n; fitted = true; } }
+    return { cfg, fitted, rest };
+  }
+  async finish() {
+    const r = this.recommend();
+    this.setState({ cPhase: 'thinking', rec: r, recNote: '' });
+    const fallback = this.fallbackNote(r);
+    let note = fallback;
+    if (this.props.aiConcierge !== false && window.claude && window.claude.complete) {
+      try {
+        const a = this.state.ans;
+        const prompt = `You are the private wellness concierge for WellVoy, a preventive health journey company in India. Write 2 or 3 sentences (under 65 words) addressed to the guest as "you", in a calm, warm, understated luxury-hotel voice. Explain why this journey suits them. No emojis, no exclamation marks, no diagnoses or medical promises, no greeting, no sign-off.\n\nGuest: goals ${(a.goals || []).join(', ') || 'unspecified'}; age ${a.age || 'unspecified'}; concerns ${(a.concerns || []).join(', ') || 'none'}${this.state.cText ? '; note: ' + this.state.cText : ''}; time ${a.length || 'unspecified'}; travel ${a.month || 'flexible'}; budget ${a.budget || 'unspecified'}.\nJourney: ${this.journeyText(r.cfg)}.`;
+        const txt = await Promise.race([window.claude.complete(prompt), new Promise((_, rej) => setTimeout(() => rej(new Error('t')), 12000))]);
+        if (txt && txt.trim().length > 20) note = txt.trim().replace(/^"|"$/g, '');
+      } catch (e) {}
+    } else await new Promise(res => setTimeout(res, 700));
+    this.setState({ cPhase: 'done', recNote: note });
+  }
+  fallbackNote(r) {
+    const c = r.cfg, t = TIERS.find(x => x.id === c.tier).name;
+    return `I'd begin with ${t} screening, so every decision after it rests on evidence. Then ${c.restoreNights} nights in Kerala, where your Vaidya will read your results before prescribing anything${c.realign ? `, and ${c.realignNights} unhurried nights in ${DESTS[c.dest].name} to settle what you've begun` : ''}.`;
+  }
+  reasons(r) {
+    const c = r.cfg, out = [];
+    const tr = { essential: 'a thorough baseline without imaging you don\'t yet need.', advanced: 'a cardiac calcium score and VO2 max give a precise read on heart health and fitness.', executive: 'full-body MRI and an extended cancer screen offer the widest view at this stage of life.' };
+    out.push({ h: TIERS.find(x => x.id === c.tier).name + ' screening', t: tr[c.tier] + (c.addons.length ? ' With ' + ADDONS.filter(a => c.addons.includes(a.id)).map(a => a.name.toLowerCase()).join(' and ') + '.' : ''), color: COL.diag });
+    out.push({ h: c.restoreNights + ' nights in Kerala', t: PK[c.restoreNights] + (c.restoreNights >= 14 ? ', the length a classical programme needs.' : ', a gentle first experience.'), color: COL.restore });
+    if (c.realign) out.push({ h: c.realignNights + ' nights in ' + DESTS[c.dest].name, t: PRACTICES.find(p => p.id === c.practice).name + (r.rest ? ', chosen for rest and sleep.' : ', to carry the momentum home.'), color: COL.realign });
+    if (r.fitted) out.push({ h: 'Within your range', t: 'I\'ve kept the plan inside the budget you gave. An advisor can show you what an extra few days would add.', color: '#B5AD9E' });
+    return out;
+  }
+  segs(j) { return j.legs.map(l => ({ n: l.n, color: COL[l.id], label: l.label })); }
+
+  renderVals() {
+    const s = this.state, cfg = s.cfg, fmt = u => this.fmt(u), wide = s.vw >= 1080, compact = s.vw < 1140;
+    const isHome = s.page === 'home', overHero = isHome && !s.scrolled && !s.menuOpen;
+    const nav = {
+      bg: overHero ? 'rgba(245,241,234,0)' : 'rgba(245,241,234,.97)', border: overHero ? 'rgba(245,241,234,0)' : 'rgba(29,33,30,.08)',
+      fg: overHero ? '#F5F1EA' : '#1D211E', btnBorder: overHero ? 'rgba(245,241,234,.45)' : 'rgba(29,33,30,.22)',
+      ctaBg: overHero ? '#F5F1EA' : '#1E3A2E', ctaFg: overHero ? '#152A21' : '#F5F1EA',
+      linksDisplay: compact ? 'none' : 'flex', menuDisplay: compact ? 'flex' : 'none', tagDisplay: s.vw < 400 ? 'none' : 'inline', ctaLabel: s.vw < 400 ? 'Build' : 'Build your journey'
+    };
+    const links = [['Journey', 'home'], ['Build', 'build'], ['Signature journeys', 'package'], ['How it works', 'how'], ['Contact', 'contact']];
+    const navLinks = links.map(([label, id]) => ({ label, onClick: () => this.go(id), underline: s.page === id ? 'currentColor' : 'transparent' }));
+    const selBox = on => ({ bg: on ? '#FFFFFF' : 'transparent', bd: on ? '#1E3A2E' : 'rgba(29,33,30,.14)', dot: on ? '#1E3A2E' : 'transparent' });
+    const chip = on => ({ bg: on ? '#1E3A2E' : 'transparent', fg: on ? '#F5F1EA' : '#1D211E', bd: on ? '#1E3A2E' : 'rgba(29,33,30,.2)' });
+    const j = compute(cfg);
+
+    const stepSum = [
+      cfg.diag ? TIERS.find(t => t.id === cfg.tier).name + ' · ' + CITIES[cfg.city].name : 'Not included',
+      !cfg.diag ? 'Requires Diagnose' : cfg.addons.length ? ADDONS.filter(a => cfg.addons.includes(a.id)).map(a => a.name).join(', ') : 'Dental & aesthetics · optional',
+      cfg.restore ? cfg.restoreNights + ' nights · ' + ROOMS[cfg.room].name : 'Not included',
+      cfg.realign ? DESTS[cfg.dest].name + ' · ' + cfg.realignNights + ' nights · ' + PRACTICES.find(p => p.id === cfg.practice).name : 'Not included'
+    ];
+    const mk = i => {
+      const open = s.openStep === i, locked = i > s.maxStep;
+      return {
+        open, summary: locked ? 'Complete the previous step' : stepSum[i], op: locked ? 0.45 : 1,
+        bd: open ? 'rgba(29,33,30,.35)' : 'rgba(29,33,30,.1)', action: open ? '' : locked ? '' : 'Edit',
+        onHead: () => { if (!locked) this.setState({ openStep: open ? -1 : i }); },
+        onNext: () => this.setState(st => ({ openStep: i + 1 > 3 ? -1 : i + 1, maxStep: Math.max(st.maxStep, i + 1) }))
+      };
+    };
+    const tg = {}; ['diag', 'restore', 'realign'].forEach(k => tg[k] = { bg: cfg[k] ? '#1E3A2E' : '#D6C8B0', x: cfg[k] ? '16px' : '0px', onClick: () => this.toggleLeg(k) });
+
+    const pkg = PACKAGES.find(p => p.id === s.pkgId), pj = compute(pkg.cfg), pc = pkg.cfg;
+    const pkgCards = PACKAGES.map(p => { const pj2 = compute(p.cfg); return { name: p.name, line: p.line, src: p.src, isVid: p.isVid, isImg: !p.isVid, days: pj2.days, price: fmt(pj2.total), route: CITIES[p.cfg.city].name + ' · Kerala · ' + DESTS[p.cfg.dest].name, segs: this.segs(pj2), onClick: () => { this.setState({ pkgId: p.id }); this.go('package'); } }; });
+
+    // concierge
+    const cs = s.cStep, cq = CQ[cs], cur = s.ans[cq.key];
+    const rec = s.rec, rj = rec ? compute(rec.cfg) : null;
+    const c = {
+      progress: s.cPhase === 'done' ? 'Your suggestion' : 'Question ' + (cs + 1) + ' of ' + CQ.length,
+      pct: s.cPhase === 'done' ? '100%' : Math.round(cs / CQ.length * 100) + '%',
+      transcript: Array.from({ length: s.cPhase === 'ask' ? cs : CQ.length }, (_, i) => ({ q: CQ[i].q, a: this.answerLabel(i), onEdit: () => this.setState({ cStep: i, cPhase: 'ask' }) })),
+      asking: s.cPhase === 'ask', thinking: s.cPhase === 'thinking', done: s.cPhase === 'done',
+      q: cq.q, hint: cq.hint || '', multi: !!cq.multi, hasText: !!cq.text, text: s.cText,
+      onText: e => this.setState({ cText: e.target.value }),
+      nextBg: cq.key === 'goals' && !(cur || []).length ? '#9DA59F' : '#1E3A2E',
+      opts: this.qOpts(cs).map(o => { const on = cq.multi ? (cur || []).includes(o) : cur === o; return { label: o, ...chip(on), onClick: () => this.pick(cs, o) }; }),
+      onNext: () => this.cNext(),
+      note: s.recNote, title: rec ? [rec.cfg.diag && TIERS.find(t => t.id === rec.cfg.tier).name, rec.cfg.restore && 'Kerala ' + rec.cfg.restoreNights + 'n', rec.cfg.realign && DESTS[rec.cfg.dest].name + ' ' + rec.cfg.realignNights + 'n'].filter(Boolean).join(' · ') : '',
+      price: rj ? fmt(rj.total) : '', days: rj ? rj.days : '', segs: rj ? this.segs(rj) : [], reasons: rec ? this.reasons(rec) : [],
+      apply: () => { this.setState({ cfg: rec.cfg, maxStep: 3, openStep: -1, cOpen: false }); this.go('build'); },
+      toAdvisor: () => { this.setState({ cOpen: false }); this.openAdvisor('message', 'The concierge suggested: ' + this.journeyText(rec.cfg) + '. I\'d like to discuss it.'); },
+      restart: () => this.setState({ cStep: 0, ans: {}, cText: '', cPhase: 'ask', rec: null })
+    };
+
+    const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() + i + 1); return d; });
+    const waText = 'Hello WellVoy, I\'m interested in: ' + this.journeyText(cfg) + '.';
+    const f = s.form, e = s.errs, bd = k => e[k] ? '#9A3B2E' : 'rgba(29,33,30,.18)';
+
+    return {
+      nav, navLinks, menuOpen: s.menuOpen, toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      goHome: () => this.go('home'), goBuild: () => this.go('build'),
+      isHome, isBuild: s.page === 'build', isPackage: s.page === 'package', isHow: s.page === 'how', isContact: s.page === 'contact',
+      heroImg: this.heroImg, progRef: this.progRef, summaryRef: this.summaryRef,
+      rail: {
+        opacity: s.inJourney ? 1 : 0, pe: s.inJourney ? 'auto' : 'none',
+        items: ['Diagnose', 'Restore', 'Realign'].map((label, i) => ({ label: s.vw < 480 && s.activeLeg !== i ? '' : label, num: '0' + (i + 1), bg: s.activeLeg === i ? '#1E3A2E' : 'transparent', fg: s.activeLeg === i ? '#F5F1EA' : '#3F433E', onClick: () => { const el = document.querySelectorAll('[data-leg]')[i]; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: this.reduced() ? 'auto' : 'smooth' }); } }))
+      },
+      tierPrices: { essential: fmt(1450), advanced: fmt(3200), executive: fmt(5900) },
+      destRates: { goa: fmt(DESTS.goa.rate), andaman: fmt(DESTS.andaman.rate) },
+      pickGoa: () => { this.setCfg({ dest: 'goa', realign: true }); this.go('build'); },
+      pickAndaman: () => { this.setCfg({ dest: 'andaman', realign: true }); this.go('build'); },
+      pkgCards,
+      feel: Object.fromEntries([['clear', 'renewal'], ['rested', 'voyage'], ['renewed', 'reset']].map(([k, id]) => [k, () => { this.setState({ pkgId: id }); this.go('package'); }])),
+      openConcierge: () => this.setState({ cOpen: true, menuOpen: false }), closeConcierge: () => this.setState({ cOpen: false }), cOpen: s.cOpen, c,
+
+      layout: {
+        cols: wide ? 'minmax(0,1fr) 400px' : 'minmax(0,1fr)', pos: wide ? 'sticky' : 'relative', sumMax: wide ? 'calc(100vh - 112px)' : 'none',
+        mobileBar: !wide && s.page === 'build', fabBottom: !wide && s.page === 'build' ? 'calc(88px + env(safe-area-inset-bottom))' : 'clamp(16px,2.5vw,28px)',
+        footPad: !wide && s.page === 'build' ? '76px' : '0px'
+      },
+      cfg, noDiag: !cfg.diag, s0: mk(0), s1: mk(1), s2: mk(2), s3: mk(3), tg, reviewReady: s.maxStep >= 3,
+      tierCards: TIERS.map(t => ({ name: t.name, price: fmt(t.price), blurb: t.blurb, meta: t.meta, ...selBox(cfg.tier === t.id), onClick: () => this.setCfg({ tier: t.id }) })),
+      tierName: TIERS.find(t => t.id === cfg.tier).name, tierItems: tierItems(cfg.tier),
+      cityChips: Object.entries(CITIES).map(([id, cc]) => ({ label: cc.name, ...chip(cfg.city === id), onClick: () => this.setCfg({ city: id }) })),
+      addonGroups: ['Dental', 'Aesthetics'].map(g => ({ name: g, items: ADDONS.filter(a => a.group === g).map(a => { const on = cfg.addons.includes(a.id); return { name: a.name, note: a.note, price: '+' + fmt(a.price), mark: on ? '✓' : '', bg: on ? '#1E3A2E' : 'transparent', bd: on ? '#1E3A2E' : 'rgba(29,33,30,.3)', onClick: () => this.setCfg({ addons: on ? cfg.addons.filter(x => x !== a.id) : [...cfg.addons, a.id] }) }; }) })),
+      restoreDur: [7, 14, 21].map(n => { const on = cfg.restoreNights === n; return { label: n + ' nights', note: PK[n], bg: on ? '#1E3A2E' : '#FBF9F5', fg: on ? '#F5F1EA' : '#1D211E', onClick: () => this.setCfg({ restoreNights: n }) }; }),
+      roomCards: Object.entries(ROOMS).map(([id, r]) => ({ name: r.name, note: r.note, rate: fmt(r.rate), ...selBox(cfg.room === id), onClick: () => this.setCfg({ room: id }) })),
+      destCards: Object.entries(DESTS).map(([id, d]) => ({ name: d.name, note: d.note, img: d.img, src: d.src, hasSrc: !!d.src, rate: fmt(d.rate), ...selBox(cfg.dest === id), onClick: () => this.setCfg({ dest: id }) })),
+      realignDur: [5, 7, 10].map(n => ({ label: n + ' nights', ...chip(cfg.realignNights === n), onClick: () => this.setCfg({ realignNights: n }) })),
+      practiceOpts: PRACTICES.map(p => ({ name: p.name, note: p.note, dot: cfg.practice === p.id ? '#1E3A2E' : 'transparent', onClick: () => this.setCfg({ practice: p.id }) })),
+      sum: { total: fmt(j.total), days: j.days, segs: this.segs(j), rows: j.rows, lines: j.lines.map(l => ({ ...l, v: fmt(l.v) })) },
+      reserve: () => this.openAdvisor('message', 'I\'d like to reserve: ' + this.journeyText(cfg) + '.'),
+      toSummary: () => { const el = this.summaryRef.current; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 88, behavior: this.reduced() ? 'auto' : 'smooth' }); },
+
+      pkg: {
+        name: pkg.name, line: pkg.line, video: pkg.video, days: pj.days, price: fmt(pj.total), tier: TIERS.find(t => t.id === pc.tier).name,
+        route: CITIES[pc.city].name + ' → Kerala → ' + DESTS[pc.dest].name, rows: pj.rows, lines: pj.lines.map(l => ({ l: l.l, v: fmt(l.v) })),
+        incl: [
+          { title: 'Diagnose', where: CITIES[pc.city].name + ' · ' + pj.legs[0].n + ' nights', color: COL.diag, items: tierItems(pc.tier) },
+          { title: 'Restore', where: 'tulåh, Calicut · ' + pc.restoreNights + ' nights', color: COL.restore, items: ['Vaidya consultation & Nadi Pariksha', 'Prakriti (dosha) assessment', PK[pc.restoreNights], 'Daily Abhyanga', 'Shirodhara', 'Sattvic full board · ' + ROOMS[pc.room].name] },
+          { title: 'Realign', where: DESTS[pc.dest].place + ' · ' + pc.realignNights + ' nights', color: COL.realign, items: ['Twice-daily ' + PRACTICES.find(p => p.id === pc.practice).name, 'Pranayama & meditation', 'Yoga Nidra', 'Two private sessions', DESTS[pc.dest].stay] }
+        ]
+      },
+      pkgTabs: PACKAGES.map(p => ({ name: p.name, bg: p.id === s.pkgId ? '#F5F1EA' : 'transparent', fg: p.id === s.pkgId ? '#152A21' : '#F5F1EA', onClick: () => this.setState({ pkgId: p.id }) })),
+      customisePkg: () => { this.setState({ cfg: { ...pkg.cfg }, maxStep: 3, openStep: -1 }); this.go('build'); },
+      reservePkg: () => this.openAdvisor('message', 'I\'m interested in ' + pkg.name + ': ' + this.journeyText(pkg.cfg) + '.'),
+
+      faqs: FAQS.map(([q, a], i) => ({ q, a, open: s.faq === i, rot: s.faq === i ? '45deg' : '0deg', onClick: () => this.setState({ faq: s.faq === i ? -1 : i }) })),
+
+      openAdvisor: () => this.openAdvisor(), openCallback: () => this.openAdvisor('callback'), closeAdvisor: () => this.setState({ advOpen: false }),
+      drawer: { op: s.advOpen ? 1 : 0, pe: s.advOpen ? 'auto' : 'none', x: s.advOpen ? '0%' : '104%', dur: this.reduced() ? '0s' : '.4s' },
+      advTabs: [['callback', 'Callback'], ['whatsapp', 'WhatsApp'], ['message', 'Message']].map(([id, label]) => ({ label, bg: s.advTab === id ? '#FBF9F5' : 'transparent', onClick: () => this.setState({ advTab: id }) })),
+      advTab: { callback: s.advTab === 'callback', whatsapp: s.advTab === 'whatsapp', message: s.advTab === 'message' },
+      waText, waLink: 'https://wa.me/910000000000?text=' + encodeURIComponent(waText),
+      cb: s.cb, cbSent: s.cbSent, cbOpen: !s.cbSent, cbErr: s.cbErr,
+      cbDayLabel: s.cb.day != null ? days[s.cb.day].toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) : '',
+      cbDays: days.map((d, i) => ({ dow: d.toLocaleDateString('en-GB', { weekday: 'short' }), num: d.getDate(), ...chip(s.cb.day === i), onClick: () => this.setState(st => ({ cb: { ...st.cb, day: i }, cbErr: '' })) })),
+      cbSlots: ['09:00', '11:30', '14:00', '17:30', '19:00'].map(t => ({ label: t, ...chip(s.cb.slot === t), onClick: () => this.setState(st => ({ cb: { ...st.cb, slot: t }, cbErr: '' })) })),
+      onCbPhone: ev => { const v = ev.target.value; this.setState(st => ({ cb: { ...st.cb, phone: v } })); },
+      submitCb: () => { const b = s.cb; if (b.day == null || !b.slot) return this.setState({ cbErr: 'Please choose a day and time.' }); if ((b.phone || '').replace(/\D/g, '').length < 7) return this.setState({ cbErr: 'Please add a phone number with country code.' }); this.setState({ cbSent: true, cbErr: '' }); },
+      resetCb: () => this.setState({ cbSent: false }),
+      form: f, msgSent: s.msgSent, msgOpen: !s.msgSent,
+      onF: Object.fromEntries(['name', 'email', 'country', 'message'].map(k => [k, ev => { const v = ev.target.value; this.setState(st => ({ form: { ...st.form, [k]: v }, errs: { ...st.errs, [k]: '' } })); }])),
+      err: { name: e.name || '', email: e.email || '', message: e.message || '', nameBd: bd('name'), emailBd: bd('email'), messageBd: bd('message') },
+      submitMsg: ev => { ev.preventDefault(); const er = {}; if (!f.name.trim()) er.name = 'Please tell us your name.'; if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) er.email = 'Please enter a valid email.'; if (!f.message.trim()) er.message = 'A sentence or two is plenty.'; if (Object.keys(er).length) return this.setState({ errs: er }); this.setState({ msgSent: true, errs: {} }); },
+      resetMsg: () => this.setState({ msgSent: false, form: { name: '', email: '', country: '', message: '' } })
+    };
+  }
+}
+</script>
+</body>
+</html>

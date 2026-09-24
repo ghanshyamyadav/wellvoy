@@ -1,0 +1,208 @@
+{
+  "id": "diagnose",
+  "order": 1,
+  "label": "Diagnose",
+  "color": "#8FA39A",
+  "optional": true,
+  "chapter": {
+    "number": "01",
+    "title": "Begin with evidence.",
+    "where": "Bengaluru, Mumbai or New Delhi",
+    "duration": "3 to 4 days",
+    "media": "taj-brand-film"
+  },
+  "cities": [
+    {
+      "id": "bengaluru",
+      "name": "Bengaluru",
+      "airport": "Bengaluru (BLR)",
+      "hotel": "Taj MG Road",
+      "default": true
+    },
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "airport": "Mumbai (BOM)",
+      "hotel": "a partner Taj hotel",
+      "default": false
+    },
+    {
+      "id": "delhi",
+      "name": "New Delhi",
+      "airport": "Delhi (DEL)",
+      "hotel": "a partner Taj hotel",
+      "default": false
+    }
+  ],
+  "tiers": [
+    {
+      "id": "essential",
+      "name": "Essential",
+      "priceUSD": 1450,
+      "screeningDays": 1,
+      "meta": "1 day · 22 assessments",
+      "blurb": "A rigorous baseline for the proactive."
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced",
+      "priceUSD": 3200,
+      "screeningDays": 2,
+      "meta": "2 days · 34 assessments",
+      "blurb": "Adds heart imaging and fitness capacity."
+    },
+    {
+      "id": "executive",
+      "name": "Executive",
+      "priceUSD": 5900,
+      "screeningDays": 2,
+      "meta": "2 days · 48 assessments",
+      "blurb": "The most complete picture, head to toe."
+    }
+  ],
+  "tests": [
+    {
+      "name": "Comprehensive biomarker panel",
+      "byTier": {
+        "essential": "90 markers",
+        "advanced": "120 markers",
+        "executive": "140+ markers"
+      }
+    },
+    {
+      "name": "DEXA scan: bone density & body composition",
+      "byTier": {
+        "essential": "y",
+        "advanced": "y",
+        "executive": "y"
+      }
+    },
+    {
+      "name": "Cancer markers",
+      "byTier": {
+        "essential": "core",
+        "advanced": "core",
+        "executive": "extended"
+      }
+    },
+    {
+      "name": "Cardiac CT with calcium score",
+      "byTier": {
+        "essential": null,
+        "advanced": "y",
+        "executive": "y"
+      }
+    },
+    {
+      "name": "VO2 max & metabolic testing",
+      "byTier": {
+        "essential": null,
+        "advanced": "y",
+        "executive": "y"
+      }
+    },
+    {
+      "name": "Full-body MRI",
+      "byTier": {
+        "essential": null,
+        "advanced": null,
+        "executive": "y"
+      }
+    },
+    {
+      "name": "Physician debrief & personal health report",
+      "byTier": {
+        "essential": "45 min",
+        "advanced": "60 min",
+        "executive": "90 min + 90-day follow-up"
+      }
+    }
+  ],
+  "testsLegend": {
+    "y": "Included",
+    "null": "Not included",
+    "other": "Shown as label, e.g. “120 markers”"
+  },
+  "addons": [
+    {
+      "id": "whitening",
+      "group": "Dental",
+      "name": "Professional whitening",
+      "priceUSD": 380,
+      "extraDays": 0,
+      "note": "Single visit"
+    },
+    {
+      "id": "implant",
+      "group": "Dental",
+      "name": "Dental implant",
+      "priceUSD": 1250,
+      "extraDays": 2,
+      "note": "Per implant, crown included"
+    },
+    {
+      "id": "veneers",
+      "group": "Dental",
+      "name": "Porcelain veneers",
+      "priceUSD": 2800,
+      "extraDays": 3,
+      "note": "Set of 8 · two visits"
+    },
+    {
+      "id": "smile",
+      "group": "Dental",
+      "name": "Smile makeover",
+      "priceUSD": 4900,
+      "extraDays": 5,
+      "note": "Veneers, whitening & contouring"
+    },
+    {
+      "id": "skin",
+      "group": "Aesthetics",
+      "name": "Skin rejuvenation",
+      "priceUSD": 650,
+      "extraDays": 0,
+      "note": "Laser & medical facial"
+    },
+    {
+      "id": "bleph",
+      "group": "Aesthetics",
+      "name": "Blepharoplasty",
+      "priceUSD": 2400,
+      "extraDays": 5,
+      "note": "Eyelid surgery · 5 days recovery"
+    },
+    {
+      "id": "facelift",
+      "group": "Aesthetics",
+      "name": "Facelift",
+      "priceUSD": 6200,
+      "extraDays": 9,
+      "note": "Includes 9 days supervised recovery"
+    }
+  ],
+  "nightsFormula": "2 + tier.screeningDays + sum(addons.extraDays)",
+  "itinerary": [
+    {
+      "day": "start",
+      "title": "Arrive in {city.name}",
+      "detail": "Met on arrival, private transfer to {city.hotel}, coordinator briefing"
+    },
+    {
+      "day": "screening",
+      "title": "{tier.name} screening",
+      "detail": "JCI-accredited partner hospital · private suite"
+    },
+    {
+      "day": "debrief",
+      "title": "Physician debrief{quickAddons}",
+      "detail": "Your personal health report, explained in person"
+    },
+    {
+      "day": "addons",
+      "when": "addonDays>0",
+      "title": "{procedureAddons}",
+      "detail": "Procedures and supervised recovery"
+    }
+  ]
+}

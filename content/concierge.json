@@ -1,0 +1,270 @@
+{
+  "intro": "A few quiet questions, and I'll shape a journey around you.",
+  "questions": [
+    {
+      "key": "goals",
+      "prompt": "What would you most like to take home from this journey?",
+      "hint": "Choose any that feel true.",
+      "multi": true,
+      "freeText": false,
+      "required": true,
+      "options": [
+        "A clear picture of my health",
+        "Deep rest & recovery",
+        "A reset for body and mind",
+        "Fitness & longevity",
+        "A refreshed appearance"
+      ]
+    },
+    {
+      "key": "age",
+      "prompt": "May I ask your age? It helps us decide which screenings are worthwhile.",
+      "hint": null,
+      "multi": false,
+      "freeText": false,
+      "required": false,
+      "options": [
+        "Under 35",
+        "35–44",
+        "45–54",
+        "55–64",
+        "65+"
+      ]
+    },
+    {
+      "key": "concerns",
+      "prompt": "Is anything on your mind, health-wise?",
+      "hint": "Optional. Shared only with your care team.",
+      "multi": true,
+      "freeText": true,
+      "required": false,
+      "options": [
+        "Heart health",
+        "Family history of cancer",
+        "Stress & sleep",
+        "Weight & metabolism",
+        "Joints or back",
+        "Dental",
+        "Nothing specific"
+      ]
+    },
+    {
+      "key": "length",
+      "prompt": "How much time can you give yourself?",
+      "hint": null,
+      "multi": false,
+      "freeText": false,
+      "required": false,
+      "options": [
+        "About two weeks",
+        "About three weeks",
+        "Four weeks or more"
+      ]
+    },
+    {
+      "key": "month",
+      "prompt": "And when would you like to travel?",
+      "hint": null,
+      "multi": false,
+      "freeText": false,
+      "required": false,
+      "options": "{generated:next6Months+flexible}"
+    },
+    {
+      "key": "budget",
+      "prompt": "Lastly, a comfortable range per person, excluding flights?",
+      "hint": null,
+      "multi": false,
+      "freeText": false,
+      "required": false,
+      "options": "{generated:budgetBands}"
+    }
+  ],
+  "budgetBandsUSD": [
+    {
+      "min": 0,
+      "max": 8000
+    },
+    {
+      "min": 8000,
+      "max": 14000
+    },
+    {
+      "min": 14000,
+      "max": 22000
+    },
+    {
+      "min": 22000,
+      "max": null
+    }
+  ],
+  "rules": {
+    "base": {
+      "diagnose": {
+        "tier": "essential",
+        "city": "bengaluru",
+        "addons": []
+      },
+      "restore": {
+        "nights": 14,
+        "room": "garden"
+      },
+      "realign": {
+        "destination": "goa",
+        "nights": 5,
+        "practice": "vinyasa"
+      }
+    },
+    "patches": [
+      {
+        "if": {
+          "anyOf": [
+            {
+              "age": [
+                "45–54",
+                "55–64",
+                "65+"
+              ]
+            },
+            {
+              "concerns": "Heart health"
+            },
+            {
+              "goals": "Fitness & longevity"
+            },
+            {
+              "goals": "A clear picture of my health"
+            }
+          ]
+        },
+        "set": {
+          "diagnose.tier": "advanced"
+        }
+      },
+      {
+        "if": {
+          "anyOf": [
+            {
+              "age": [
+                "55–64",
+                "65+"
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "concerns": "Family history of cancer"
+                },
+                {
+                  "age": [
+                    "45–54",
+                    "55–64",
+                    "65+"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "set": {
+          "diagnose.tier": "executive"
+        }
+      },
+      {
+        "if": {
+          "concerns": "Dental"
+        },
+        "push": {
+          "diagnose.addons": "whitening"
+        }
+      },
+      {
+        "if": {
+          "goals": "A refreshed appearance"
+        },
+        "push": {
+          "diagnose.addons": "skin"
+        }
+      },
+      {
+        "if": {
+          "length": "About two weeks"
+        },
+        "set": {
+          "restore.nights": 7,
+          "realign.nights": 5
+        }
+      },
+      {
+        "if": {
+          "length": "Four weeks or more"
+        },
+        "set": {
+          "restore.nights": 21,
+          "realign.nights": 7
+        }
+      },
+      {
+        "if": {
+          "anyOf": [
+            {
+              "goals": "Deep rest & recovery"
+            },
+            {
+              "concerns": "Stress & sleep"
+            }
+          ]
+        },
+        "set": {
+          "realign.destination": "andaman",
+          "realign.practice": "hatha"
+        }
+      },
+      {
+        "if": {
+          "allOf": [
+            {
+              "goals": "Fitness & longevity"
+            },
+            {
+              "not": {
+                "concerns": "Stress & sleep"
+              }
+            },
+            {
+              "not": {
+                "goals": "Deep rest & recovery"
+              }
+            }
+          ]
+        },
+        "set": {
+          "realign.practice": "ashtanga"
+        }
+      },
+      {
+        "if": {
+          "budgetBand": 3
+        },
+        "set": {
+          "restore.room": "pavilion"
+        }
+      }
+    ],
+    "budgetFitSteps": [
+      "restore.room=garden",
+      "diagnose.addons=[]",
+      "realign.destination=goa",
+      "restore.nights-=7 (min 7)",
+      "diagnose.tier executive→advanced",
+      "diagnose.tier advanced→essential",
+      "realign=null"
+    ]
+  },
+  "llm": {
+    "model": "claude-haiku-4-5",
+    "maxWords": 65,
+    "timeoutMs": 12000,
+    "voice": "calm, warm, understated luxury-hotel; no emojis, no exclamation marks, no diagnoses or medical promises, no greeting or sign-off"
+  }
+}

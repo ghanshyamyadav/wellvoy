@@ -1,0 +1,83 @@
+[
+  {
+    "id": "tulah-film",
+    "type": "video",
+    "src": "/media/video/tulah-film.mp4",
+    "poster": null,
+    "usedIn": [
+      "home.hero",
+      "home.restore",
+      "package.voyage",
+      "feel.rested"
+    ],
+    "owner": "tulåh",
+    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+  },
+  {
+    "id": "taj-brand-film",
+    "type": "video",
+    "src": "/media/video/taj-brand-film.mp4",
+    "usedIn": [
+      "home.diagnose",
+      "package.renewal",
+      "feel.certain"
+    ],
+    "owner": "IHCL / Taj",
+    "rights": "PENDING — mirrored locally for dev speed; generic brand film, replace with Taj MG Road footage once permission is obtained"
+  },
+  {
+    "id": "larisa-film",
+    "type": "video",
+    "src": "/media/video/larisa-film.webm",
+    "usedIn": [
+      "home.realign",
+      "package.reset"
+    ],
+    "owner": "LaRiSa Resorts",
+    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+  },
+  {
+    "id": "larisa-gallery-1-1",
+    "type": "image",
+    "src": "/media/image/larisa-gallery-1-1.avif",
+    "usedIn": [
+      "home.goa-card",
+      "hero.poster",
+      "package.reset.card",
+      "configurator.goa"
+    ],
+    "owner": "LaRiSa Resorts",
+    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+  },
+  {
+    "id": "larisa-gallery-5",
+    "type": "image",
+    "src": "/media/image/larisa-gallery-5.avif",
+    "usedIn": [
+      "feel.renewed"
+    ],
+    "owner": "LaRiSa Resorts",
+    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+  },
+  {
+    "id": "andaman-*",
+    "type": "image",
+    "src": null,
+    "usedIn": [
+      "home.andaman-card",
+      "configurator.andaman"
+    ],
+    "owner": "TBD",
+    "rights": "MISSING — no source yet"
+  },
+  {
+    "id": "doctor-portraits",
+    "type": "image",
+    "src": null,
+    "usedIn": [
+      "home.care-team"
+    ],
+    "owner": "Partner clinicians",
+    "rights": "MISSING — real portraits with consent"
+  }
+]
