@@ -906,7 +906,9 @@ class Component extends DCLogic {
   syncMedia() {
     if (!this._vio) return;
     document.querySelectorAll('video[data-bg]').forEach(v => {
-      if (v._wv) return; v._wv = 1; v.muted = true; v.playsInline = true;
+      const src = v.getAttribute('src');
+      if (v._wv) { if (v._lastSrc !== src) { v._lastSrc = src; v.load(); if (v._inView && !this.reduced()) v.play().catch(() => {}); } return; }
+      v._wv = 1; v._lastSrc = src; v.muted = true; v.playsInline = true;
       v.addEventListener('loadeddata', () => { if (v._inView && !this.reduced()) v.play().catch(() => {}); });
       this._vio.observe(v);
     });
@@ -1126,7 +1128,7 @@ class Component extends DCLogic {
       toSummary: () => { const el = this.summaryRef.current; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 88, behavior: this.reduced() ? 'auto' : 'smooth' }); },
 
       pkg: {
-        name: pkg.name, line: pkg.line, video: pkg.video, days: pj.days, price: fmt(pj.total), tier: TIERS.find(t => t.id === pc.tier).name,
+        name: pkg.name, line: pkg.line, video: pkg.video, poster: pkg.poster, days: pj.days, price: fmt(pj.total), tier: TIERS.find(t => t.id === pc.tier).name,
         route: CITIES[pc.city].name + ' → Kerala → ' + DESTS[pc.dest].name, rows: pj.rows, lines: pj.lines.map(l => ({ l: l.l, v: fmt(l.v) })),
         incl: [
           { title: 'Diagnose', where: CITIES[pc.city].name + ' · ' + pj.legs[0].n + ' nights', color: COL.diag, items: tierItems(pc.tier) },
