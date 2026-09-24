@@ -60,24 +60,54 @@
     "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
   },
   {
-    "id": "andaman-*",
+    "id": "andaman-havelock",
     "type": "image",
-    "src": null,
+    "src": "/media/image/andaman-havelock.jpg",
     "usedIn": [
       "home.andaman-card",
       "configurator.andaman"
     ],
-    "owner": "TBD",
-    "rights": "MISSING — no source yet"
+    "owner": "Hugh Whyte (Unsplash)",
+    "rights": "Free — Unsplash License; generic placeholder scenery (Grenada, not an actual Havelock/Andaman photo), swap for licensed Havelock Island photography before production"
   },
   {
-    "id": "doctor-portraits",
+    "id": "dr-ananya-rao",
     "type": "image",
-    "src": null,
+    "src": "/media/image/dr-ananya-rao.jpg",
     "usedIn": [
       "home.care-team"
     ],
-    "owner": "Partner clinicians",
-    "rights": "MISSING — real portraits with consent"
+    "owner": "Eben Kassaye (Unsplash)",
+    "rights": "Free — Unsplash License; stock placeholder headshot standing in for the fictional 'Dr. Ananya Rao' sample bio, not a real WellVoy clinician — replace with a real, consented photo before production"
+  },
+  {
+    "id": "dr-vikram-menon",
+    "type": "image",
+    "src": "/media/image/dr-vikram-menon.jpg",
+    "usedIn": [
+      "home.care-team"
+    ],
+    "owner": "vaibhav vivian (Unsplash)",
+    "rights": "Free — Unsplash License; stock placeholder headshot standing in for the fictional 'Dr. Vikram Menon' sample bio, not a real WellVoy clinician — replace with a real, consented photo before production"
+  },
+  {
+    "id": "dr-lakshmi-nair",
+    "type": "image",
+    "src": "/media/image/dr-lakshmi-nair.jpg",
+    "usedIn": [
+      "home.care-team"
+    ],
+    "owner": "Christina @ wocintechchat.com (Unsplash)",
+    "rights": "Free — Unsplash License; stock placeholder headshot standing in for the fictional 'Dr. Lakshmi Nair' sample bio, not a real WellVoy clinician — replace with a real, consented photo before production"
+  },
+  {
+    "id": "meera-iyer",
+    "type": "image",
+    "src": "/media/image/meera-iyer.jpg",
+    "usedIn": [
+      "home.care-team"
+    ],
+    "owner": "Jake Nackos (Unsplash)",
+    "rights": "Free — Unsplash License; stock placeholder headshot standing in for the fictional 'Meera Iyer' sample bio, not a real WellVoy teacher — replace with a real, consented photo before production"
   }
 ]

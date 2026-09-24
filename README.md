@@ -168,7 +168,9 @@ See `content/media.json`. Partner video and imagery is mirrored locally under `/
 
 **Rights on every mirrored file are still PENDING.** The local copies exist only to make development and design review fast — obtain written permission from tulåh, IHCL/Taj and LaRiSa before any of this ships to production. Once permission is granted, replace the local files with the licensed masters and move hosting to Mux/Cloudflare Stream as described in the recommended stack above; `media.json`'s `rights` field on each entry tracks this status.
 
-Still missing entirely: Andaman imagery, real clinician portraits (with consent), partner hospital photography, and a tulåh still for the hero poster (it currently uses a LaRiSa image).
+The Andaman/Havelock destination card and the four care-team portraits (Dr. Ananya Rao, Dr. Vikram Menon, Dr. Lakshmi Nair, Meera Iyer) are now filled with free-license Unsplash stock photography — chosen for aesthetic fit with the site's warm, muted palette, not because they depict the real place or real people. `media.json`'s `rights` field marks each as a placeholder: the Andaman photo is generic tropical scenery (not actually Havelock Island), and each portrait is a stock headshot standing in for a fictional sample bio, not a real WellVoy clinician. Replace all five with real, licensed/consented photography before production.
+
+Still missing entirely: partner hospital photography.
 
 ## Files in this bundle
 - `prototype/WellVoy.dc.html` + `prototype/support.js`: the interactive design reference.
