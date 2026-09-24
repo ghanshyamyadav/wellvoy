@@ -3,7 +3,7 @@
     "id": "tulah-film",
     "type": "video",
     "src": "/media/video/tulah-film.mp4",
-    "poster": null,
+    "poster": "/media/image/tulah-film-poster.jpg",
     "usedIn": [
       "home.hero",
       "home.restore",
@@ -17,6 +17,7 @@
     "id": "taj-brand-film",
     "type": "video",
     "src": "/media/video/taj-brand-film.mp4",
+    "poster": "/media/image/taj-brand-film-poster.jpg",
     "usedIn": [
       "home.diagnose",
       "package.renewal",
@@ -29,6 +30,7 @@
     "id": "larisa-film",
     "type": "video",
     "src": "/media/video/larisa-film.mp4",
+    "poster": "/media/image/larisa-film-poster.jpg",
     "usedIn": [
       "home.realign",
       "package.reset"
