@@ -11,7 +11,7 @@
       "feel.rested"
     ],
     "owner": "tulåh",
-    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+    "rights": "PENDING — mirrored locally for dev speed as a compressed 19s loop (720p H.264, no audio, trimmed from the original brand film's 0:00–0:19); obtain written permission and the full master before shipping to production"
   },
   {
     "id": "taj-brand-film",
@@ -23,18 +23,18 @@
       "feel.certain"
     ],
     "owner": "IHCL / Taj",
-    "rights": "PENDING — mirrored locally for dev speed; generic brand film, replace with Taj MG Road footage once permission is obtained"
+    "rights": "PENDING — mirrored locally for dev speed as a compressed 10.5s loop (720p H.264, no audio, letterbox cropped, trimmed from the original brand film's 0:54–1:05); generic brand film, replace with Taj MG Road footage once permission is obtained"
   },
   {
     "id": "larisa-film",
     "type": "video",
-    "src": "/media/video/larisa-film.webm",
+    "src": "/media/video/larisa-film.mp4",
     "usedIn": [
       "home.realign",
       "package.reset"
     ],
     "owner": "LaRiSa Resorts",
-    "rights": "PENDING — mirrored locally for dev speed; obtain written permission before shipping to production"
+    "rights": "PENDING — mirrored locally for dev speed as a compressed 10.6s loop (720x1280 H.264, no audio, trimmed from the original film's final 10.6s); obtain written permission and the full master before shipping to production"
   },
   {
     "id": "larisa-gallery-1-1",
